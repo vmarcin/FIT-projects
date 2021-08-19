@@ -1,0 +1,7 @@
+Varianta termínu - ARM-FITkit3: Zabezpečení dat pomocí 16/32-bit. kódu CRC, S - přihlášen
+
+Prostřednictvím vedoucího si zapůjčte 1 ks platformy FITkit 3.
+Seznamte se s principem tvorby vestavných aplikací v jazyce C založených na mikrokontroléru Kinetis K60 (s jádrem ARM Cortex-M4) fy Freescale v prostředí Kinetis Design Studio (KDS) nebo MCUXpresso.
+V jazyce C (tak i dále) vytvořte projekt demonstrující možnosti zabezpečení dat 16/32-bit. kódem CRC na čipu Kinetis K60 z desky platformy FITkit 3. UPŘESNĚNÍ: 1) Vytvořte vhodně velký blok dat (dále je "data"), která budete dále zabezpečovat CRC kódem. 2) Postupně tato data zabezpečte (vytvořte variantu zabezpečení 16-bit. CRC a variantu 32-bit. CRC) třemi způsoby: i) pomocí hardwarového modulu Cyclic Redundancy Check (CRC) z čipu K60, ii) získáním CRC dle polynomu z 2.i) z tabulky a iii) výpočtem CRC dle polynomu z 2.i). 3) Zaneste do dat několik jedno i vícenásobných chyb a ověřte/vyhodnoťte schopnost tyto chyby detekovat pomocí CRC z 2.i) až 2.iii). 4) Diskutujte realizační a výpočetní režie (neodměříte-li, pak postačí kvalifikovaný odhad) a ne/výhody spojené se zabezpečením dat dle 2.i) až 2.iii).
+Vytvořte přehlednou dokumentaci a prezentaci ke způsobu realizace výše požadovaného projektu.
+Řešení (projekt, bez binárních souborů sestavitelných na základě zdrojových souborů v projektu, a dokumentaci ve zdrojové i binární, tj. PDF, podobě) odevzdávejte prostřednictvím IS v jediném ZIP archívu.

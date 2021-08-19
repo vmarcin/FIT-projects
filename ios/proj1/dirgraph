@@ -1,0 +1,188 @@
+#! /bin/sh
+
+#author:	Vladimir Marcin 1-BIT
+#email:		xmarci10@stud.fit.vutbr.cz
+
+POSIXLY_CORRECT=yes
+#FUNCTIONS
+############################################################
+
+usage() { 
+	echo "usage: disgraph [-i FILE_ERE] [-n] [DIR]" >&2
+	exit 1
+} 
+
+#funkcia vypise nazov kategorie a pocet suborov v danej kategorii (file_size histogram)
+fshist() {
+	printf "$1"
+	for a in `seq 1 $2`
+		do
+			printf "#"
+	done
+	echo ""
+}
+
+#funkcia upravi a vypise nazov typu suboru podla dlzky a nasledne vypise pocet suborov daneho typu (file_type_histogram)
+fthist() {
+	file_type="$1"
+    length_of_filename=${#file_type}			
+    if [ $length_of_filename -lt 41 ]; then
+        printf "  %s" "$file_type"
+        printf "%$((44-length_of_filename))s" ":"
+    else
+        reduction_filename=`printf "%s" "$file_type" | cut -c 1-40`
+        printf "  %s" "$reduction_filename"
+        printf "...:"
+    fi
+    printf " "
+    for a in `seq 1 $2`
+        do
+            printf "#"
+    done
+    echo ""
+}
+###############################################################
+
+FILE_ERE='NUL'
+dir=.
+arg_n=0
+
+#PROCESSING ARGUMENTS
+################################################################
+if [ $# -gt 4 ]; then
+	echo "Too many arguments!" >&2
+	exit 1
+fi
+
+if [ $# -gt 0 ]; then
+	while getopts :i:n o
+	do case "$o" in
+		n) arg_n=1
+			;;
+		i) FILE_ERE="$OPTARG"
+		   #upravime FILE_ERE pre vystup z 'find' (znak '^' nahradime '/' kedze find vypisuje subory s cestou) a znak '$' nahradime vyrazom			   ($|/) co znamena ze hladany subor/adresar sa moze nachadzat v adresarovej strukture uprostred alebo na konci riadka	
+		   FILE_ERE=`echo "$FILE_ERE" | awk '{gsub(/[$]/, "($|/)")};1' | tr '^' '/'` 
+			;;
+		*) usage
+			;;
+		esac
+	done
+	shift $((OPTIND-1))
+	dir=$*
+	if [ -z "$dir" ]; then
+		dir=.
+	fi
+fi
+#################################################################
+
+#test ci sa v "$*" nahadza okrem mena adresara aj nejaka ina polozka
+test_dir_name=`echo "$dir" | awk '{print NF}'`
+if [ $test_dir_name -ne 1 ]; then
+	echo "$dir is not a directory!" >&2
+	exit 1
+fi
+
+#test ci adresar existuje (ak nie nepodari sa nam do neho prejst 'cd')
+cd $dir
+if [ $? -ne 0 ]; then
+	echo "Open directory error!" >&2
+	exit 1
+fi
+
+DIR=$dir
+
+ND=`find -type d | grep -vE $FILE_ERE | wc -l`	#pocet vsetkych adresarov
+NF=`find -type f | grep -vE $FILE_ERE | wc -l`	#pocet vsetkych suborov
+
+#test ci sa podarilo ziskat informacie o suboroch cize ci sa podaril posledny vykonavany prikaz
+if [ $? -ne 0 ]; then
+	echo "Error during getting info about files!" >&2
+	exit 1
+fi
+
+#zistime pocet suborov jednotlivych velkosti podla kategorii file_size_histogram
+a=`find -type f -size -100c | grep -vE $FILE_ERE | wc -l`
+b=`find -type f -size -1024c -a -size +99c | grep -vE $FILE_ERE | wc -l`
+c=`find -type f -size -10240c -a -size +1023c | grep -vE $FILE_ERE | wc -l`
+d=`find -type f -size -102400c -a -size +10239c | grep -vE $FILE_ERE | wc -l`
+e=`find -type f -size -1048576c -a -size +102399c | grep -vE $FILE_ERE | wc -l`
+f=`find -type f -size -10485760c -a -size +1048575c | grep -vE $FILE_ERE | wc -l`
+g=`find -type f -size -104857600c -a -size +10485759c | grep -vE $FILE_ERE | wc -l`
+h=`find -type f -size -1073741824c -a -size +104857599c | grep -vE $FILE_ERE | wc -l`
+i=`find -type f -size +1073741823c | grep -vE $FILE_ERE | wc -l`
+
+#zistenie 10 najcastejsich typov suborov a pocet suborov daneho typu
+if [ $NF -ne 0 ]; then
+	LIST=`file -b \`find -type f | grep  -vE $FILE_ERE\` | sort | uniq -c -w 40 | sort -nr | head`
+	number_of_types=`echo "$LIST" | wc -l`	#pocet typov ktore sme zistili (moze byt menej ako 10)
+else
+	number_of_types=0
+fi
+
+#NORMALIZATION
+###################################################
+mfs=1	#sirka ktoru mame k dispozicii na vypis histogramu (file_size_histogram)
+nfs=1	#maximalny pocet suborov v jednej kategorii (file_size_histogram)
+mft=1	#sirka ktoru mame k dispozicii na vypis histogramu (file_type_histogram)
+nft=1	#maximalny pocet suborov v jednej kategorii (file_type_histogram)
+
+if [ $arg_n -eq 1 ]; then
+	maxfs=0
+	maxft=`echo "$LIST" | sed -n 1p | awk '{print $1}'` 
+	for o in a b c d e f g h i		
+	do
+   		if [ $(($o)) -gt $maxfs ]; then
+       		maxfs=$(($o))
+   		fi
+	done
+
+	nfs=$maxfs
+	nft=$maxft
+	mfs=67
+	mft=32
+	max_width=79
+	test -t 1			#test pritomnosti terminalu
+	if [ $? -eq 0 ]; then
+		max_width=`tput cols`
+		mfs=$((max_width-13))
+		mft=$((max_width-48))
+	fi
+
+#ak normalizacia nieje potrebna (pocet suborov nepresahuje dlzku terminalu) koeficienty nastavime na '1' pri vypocte sa pocet '#' nezmeni
+	if [ $maxfs -le $max_width ]; then
+		mfs=1
+		nfs=1
+	fi
+
+	if [ $maxft -le $max_width ]; then
+		mft=1
+		nft=1
+	fi
+
+fi
+###################################################
+
+#PRINT HISTOGRAMS
+###################################################
+echo "Root directory: $DIR"
+echo "Directories: $ND"
+echo "All files: $NF"
+echo "File size histogram:"
+fshist "  <100 B  : "  $((a*mfs/nfs))
+fshist "  <1 KiB  : "  $((b*mfs/nfs))
+fshist "  <10 KiB : "  $((c*mfs/nfs))
+fshist "  <100 KiB: "  $((d*mfs/nfs))
+fshist "  <1 MiB  : "  $((e*mfs/nfs))
+fshist "  <10 MiB : "  $((f*mfs/nfs))
+fshist "  <100 MiB: "  $((g*mfs/nfs))
+fshist "  <1 GiB  : "  $((h*mfs/nfs))
+fshist "  >=1 GiB : "  $((i*mfs/nfs))
+echo "File type histogram:"
+for j in `seq 0 $((number_of_types-1))`
+	do
+		type_of_file=`echo "$LIST" | sed -n $((j+1))p | awk '{for (i=2; i<NF; i++) printf $i " "; print $NF}'`
+		number_of_file=`echo "$LIST" | sed -n $((j+1))p | awk '{print $1}'`
+    	fthist "$type_of_file" $((number_of_file*mft/nft))
+done
+###################################################
+exit 0

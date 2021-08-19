@@ -1,0 +1,41 @@
+Vec3 norm;
+	Vec3 diffuse;
+	Vec3 lightDir;
+	Vec3 result;
+	float diff;
+
+	Vec3 viewDir;
+	Vec3 reflectDir;
+	Vec3 specular;
+	float spec;
+
+	normalize_Vec3(&norm,norm_in);
+	sub_Vec3(&lightDir,light,position_in);
+	normalize_Vec3(&lightDir,&lightDir);
+	diff = dot_Vec3(&norm,&lightDir);
+	if(diff < 0)
+		diff = 0;
+	multiply_Vec3_Float(&diffuse,&lightColor,diff);
+
+	
+	sub_Vec3(&viewDir,camera,position_in);
+	normalize_Vec3(&viewDir,&viewDir);
+	lightDir.data[0] = -lightDir.data[0];
+	lightDir.data[1] = -lightDir.data[1];	
+	lightDir.data[2] = -lightDir.data[2];
+
+	reflect(&reflectDir,&lightDir,&norm);
+	spec = dot_Vec3(&viewDir,&reflectDir);
+	if(spec < 0)
+		spec = 0;
+	spec = (float)pow(spec,40);
+	multiply_Vec3_Float(&specular,&lightColor,spec);
+	add_Vec3(&result,&diffuse,&specular);
+	
+	printf(">>%f\n",result.data[1]);
+	exit(2);
+	result.data[0] *= 0;
+	result.data[2] *= 0;
+	
+	copy_Vec3Float_To_Vec4(&output->color,&result,1.f);	
+

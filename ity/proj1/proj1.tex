@@ -1,0 +1,28 @@
+\documentclass[11pt,a4paper,twocolumn]{article}
+	\usepackage[text={17cm,24cm}, top=2.5cm, left=2cm]{geometry}
+	\usepackage[czech]{babel}
+    \usepackage[utf8]{inputenc}
+	\usepackage[IL2]{fontenc}
+	\usepackage{times}
+	\newcommand{\myuv}[1]{\quotedblbase #1\textquotedblleft}
+\begin{document}
+\title{Typografie a publikování\\1.\,projekt}
+\author{Vladimír Marcin\\xmarci10@stud.fit.vutbr.cz}
+\date{}
+\maketitle
+\section{Hladká sazba}
+Hladká sazba je sazba z~jednoho stupně, druhu a~řezu písma sázená na stanovenou šířku odstavce. Skládá se z~odstavců, které obvykle začínají zarážkou, ale mohou být sázeny i~bez zarážky\,--\,rozhodující je celková grafická úprava. Odstavce jsou ukončeny východovou řádkou. Věty nesmějí začínat číslicí.\par
+Barevné zvýraznění, podtrhávání slov či různé velikosti písma vybraných slov se zde také nepoužívá. Hladká sazba je určena především pro delší texty, jako je například beletrie. Porušení konzistence sazby působí v~textu rušivě a~unavuje čtenářův zrak.
+\section{Smíšená sazba}
+Smíšená sazba má o~něco volnější pravidla než hladká sazba. Nejčastěji se klasická hladká sazba doplňuje o~další řezy písma pro zvýraznění důležitých pojmů. Existuje \myuv{pravidlo}:\par
+\begin{quotation}
+Čím více \textbf{druhů}, \textbf{\emph{řezů}}, {\scriptsize velikostí}, barev pí\-sma a~jiných efektů použijeme, tím \emph{profe\-sionálněji} bude dokument vypadat. Čtenář tím bude vždy {\Huge nadšen!}
+\end{quotation}\par
+\textsc{Tímto pravidlem se \underline{nikdy} nesmíte řídit.}\linebreak Příliš časté zvýrazňování textových elementů a~změny velikosti {\tiny písma} jsou {\LARGE známkou} \textbf{{\huge amatéris\-mu}} autora a~působí \textbf{\emph{velmi}} \emph{rušivě}. Dobře navrže\-ný dokument nemá obsahovat více než 4 řezy či druhy písma. \texttt{Dobře navržený dokument je decentní, ne chaotický}.\par
+Důležitým znakem správně vysázeného dokumentu je konzistentní používání různých druhů zvýraznění. To například může znamenat, že \textbf{tučný řez} písma bude vyhrazen pouze pro klíčová slova, \emph{skloněný řez} pouze pro doposud neznámé pojmy a~nebude se to míchat. Skloněný řez nepůsobí tak rušivě a~používá se častěji. V~\LaTeX{}u jej sázíme raději příkazem \verb|\emph{text}| než \verb|\textit{text}|.\par
+Smíšená sazba se nejčastěji používá pro sazbu vě\-deckých článků a~technických zpráv. U~delších dokumentů vědeckého či technického charakteru je zvykem upozornit čtenáře na význam různých typů zvýraznění v~úvodní kapitole.
+\section{České odlišnosti}
+Česká sazba se oproti okolnímu světu v~některých aspektech mírně liší. Jednou z~odlišností je sazba uvozovek. Uvozovky se v~češtině používají převážně pro zobrazení přímé řeči. V~menší míře se používají také pro zvýraznění přezdívek a~ironie. V~češtině se používá tento \textbf{\myuv{typ uvozovek}} namísto anglických ``uvozovek''. Lze je sázet připravenými příkazy nebo při použití UTF-8 kódování i~přímo.\par
+Ve smíšené sazbě se řez uvozovek řídí řezem prv\-ního uvozovaného slova. Pokud je uvozována celá věta, sází se koncová tečka před uvozovku, pokud se uvozuje slovo nebo část věty, sází se tečka za uvozovku.\par
+Druhou odlišností je pravidlo pro sázení konců řádků. V~české sazbě by řádek neměl končit osamocenou jednopísmennou předložkou nebo spojkou. Spojkou \myuv{a} končit může při sazbě do 25 liter. Abychom \LaTeX{}u zabránili v~sázení osamocených předložek, vkládáme mezi předložku a~slovo \textbf{nezlomitelnou mezeru} znakem \verb|~| (vlnka, tilda). Pro automatické do\-plnění vlnek slouží volně šiřitelný program \emph{vlna} od pana Olšáka\footnote{Viz http://petr.olsak.net/ftp/olsak/vlna/.}.
+\end{document}

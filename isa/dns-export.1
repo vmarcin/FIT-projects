@@ -1,0 +1,109 @@
+.TH DNS-EXPORT 1 "19 November 2018" "version 1.0"
+.\"
+.\"
+.\"
+.SH NAME
+.RS
+dns-export \- process DNS protocol data and export it to central logging server using Syslog protocol
+.RE
+.\"
+.\"
+.\"
+.SH SYNOPSIS
+.RS
+.B dns-export 
+[\fB\-r\fR \fIFILE\fR]
+[\fB\-i\fR \fIINTERFACE\fR]
+[\fB\-s\fR \fISYSLOG-SERVER\fR]
+[\fB\-t\fR \fISECONDS\fR]
+.RE
+.\"
+.\"
+.\"
+.SH DESCRIPTION
+.RS
+Sniff DNS traffic using libpcap in online (capture on \fIINTERFACE\fR) or 
+offline (process given PCAP \fIFILE\fR) mode and creates stats 
+which afterwards send to given \fISYSLOG-SERVER\fR or print to stdout. 
+.PP
+"DNS" refers to Domain Name System protocol specified in RFC 1035. 
+Not all Resource Record (RR) types are handled.
+.PP
+DNS RRs Supported: 
+.RS
+RFC 1035: (A, NS, CNAME, PTR, MX, TXT, SOA)
+.PP
+RFC 1886: (AAAA)
+.PP
+RFC 7208: (SPF)
+.PP
+RFC 4034: (DNSKEY, RRSIG, NSEC, DS)
+.RE 
+.PP
+This program must be run as root, or as a user with sufficient capabilities.
+.PP
+Sniffing DNS over TCP as well as UDP is supported.
+.PP
+Corrupted or incomplete packets are silently dropped.
+.PP
+Only DNS responses are needed to generate output as specified. As an optimization,
+the code uses a filter that select only packets from DNS server.
+.PP
+Output:
+.RS
+If application is listening on given interface \fIINTERFACE\fR (online mode) every \fISECONDS\fR seconds
+will processed stats send to syslog server \fISYSLOG-SERVER\fR, if it is given or user can print stats to stdout by
+sending SIGUSR1 signal to application. 
+.PP
+Otherwise (offline mode) are stats send to syslog server \fISYSLOG-SERVER\fR after processing pcap file \fIFILE\fR or
+if syslog server is not given stats are printed to stdout. 
+.PP
+.TP
+Format of printed stats:
+domain-name rr-type "rr-answer" count
+.RE
+.RE
+.\"
+.\"
+.\"
+.SH OPTIONS
+.RS
+.TP
+\fB \-h \fR
+Output a usage message and exit
+.TP
+\fB \-r \fIFILE \fR
+Process given pcap \fIFILE\fR and create stats from DNS data, saved in it. This option can't be used in combination with \fB\-i\fR or \fB\-t\fR.
+.TP
+\fB \-i \fIINTERFACE \fR
+Listen on given \fIINTERFACE\fR and process DNS traffic. This option can't be used in combination with \fB\-r\fR. Default value is \fBany\fR. 
+.TP
+\fB \-s \fISYSLOG-SERVER \fR
+Hostname/IPv4/IPv6 address of syslog server where stats will be send.
+.TP
+\fB \-t \fISECONDS \fR
+\fISECONDS\fR is time while stats will be computed. Default value is \fB60s\fR. This option can't be used in combination with \fB\-r\fR and without option \fB\-s\fR.
+.RE
+.\"
+.\"
+.\"
+.SH BUGS
+.RS
+The application does not support packet fragmentation on IP layer.
+.RE
+.\"
+.\"
+.\"
+.SH AUTHOR
+.RS
+Written by Vladimir Marcin (xmarci10@stud.fit.vutbr.cz)
+.RE
+.\"
+.\"
+.\"
+.SH SEE ALSO
+.RS
+\fBdig\fR(1), RFC1035, RFC1886, RFC4034, RFC7208
+.PP
+Full documentation at: manual.pdf
+.RE
