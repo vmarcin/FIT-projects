@@ -46,3 +46,37 @@ Piaty semester:
 -------------------------------------------------------------------------------------------------------	
 	IMP projekt	-	Zabezpečení dat pomocí 16/32-bit. kódu CRC, S	13/14		C
 	ISA projekt	-	Export DNS informací pomocí protokolu Syslog	23/20		C
+
+# 1MIT
+Siedmy semester:
+-------------------------------------------------------------------------------------------------------	
+	AVS 1.projekt	-	Optimalizace sekvenčního kodu (vektorizace)	10/10		C/OpenMP
+	AVS 2.projekt	-	Paralelizace s OpenMP				14.5/15		C/OpenMP
+	SUI projekt	-	Dicewars - Expectimax				17/20		Python
+	UPA projekt	-	Priestorová a multimediálna databáza		20/20		Java/SQL
+	TIN 1.uloha	-	Regulární jazyky				4.6/5
+	TIN 2.uloha	-	Bezkontextové jazyky + Turingovy stroje		3/5
+Ôsmy semester:
+-------------------------------------------------------------------------------------------------------	
+	FLP 1.projekt	-	Prevod PLG-2-NKA				13/12		Haskell
+	FLP 2.projekt	-	Rubikova kostka					7.5/8		Prolog
+	MBA 1.uloha	-	Petriho siete					14/14
+	MBA 2.uloha	-	Časované automaty				7.5/8
+	MBA 3.uloha	-	Markovove reťazce				8/8
+	PRL 1.projekt	-	Odd-even transposition sort			10/10		C/OpenMPI
+	PRL 2.projekt	-	Line-of-Sight					10/10		C/OpenMPI
+	KRY projekt	-	Implementácia a prelomenie RSA			7.5/8		C
+
+# 2MIT
+Deviaty semester:
+-------------------------------------------------------------------------------------------------------	
+	PCG 1.projekt	-	Časticový systém pomocou CUDA			25/25		C++/CUDA
+	PCG 2.projekt	-	Časticový systém pomocou OpenACC		15/15		C++/OpenACC
+	VIN projekt	-	Rollager - webová aplikácia na počítačovú roláž 50/50		JavaScript
+	BIS projekt	-	The FITfather					20/20
+Desiaty semester:
+-------------------------------------------------------------------------------------------------------	
+	ATA 1.projekt	-	Testovanie založené na dátach			14.7/15		Python
+	ATA 2.projekt	-	Dynamická analýza				14/15		Python
+	SNT projekt	-	Social Golfer Problem				30/30		C++/Gecode
+	

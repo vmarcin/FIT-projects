@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.input.*?>
+<?import javafx.scene.effect.*?>
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.input.KeyCodeCombination?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="631.0" prefWidth="1212.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <BorderPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="631.0" prefWidth="1212.0">
+         <top>
+           <MenuBar id="menubar" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="29.0" prefWidth="1212.0" BorderPane.alignment="CENTER">
+             <menus>
+               <Menu mnemonicParsing="false" text="Program">
+                 <items>
+                   <MenuItem fx:id="closeItem" mnemonicParsing="false" text="Close" />
+                     <MenuItem fx:id="logoutItem" mnemonicParsing="false" text="Logout" />
+                 </items>
+               </Menu>
+               <Menu mnemonicParsing="false" text="Database">
+                 <items>
+                   <MenuItem fx:id="initdb" mnemonicParsing="false" text="Initialize" />
+                 </items>
+               </Menu>
+                  <Menu mnemonicParsing="false" text="Map">
+                     <items>
+                        <Menu mnemonicParsing="false" text="Add">
+                           <items>
+                              <MenuItem fx:id="addRoad" mnemonicParsing="false" text="Tram Line">
+                                 <accelerator>
+                                    <KeyCodeCombination alt="UP" code="R" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                                 </accelerator>
+                              </MenuItem>
+                              <MenuItem fx:id="addTramStop" mnemonicParsing="false" text="Tram Stop">
+                                 <accelerator>
+                                    <KeyCodeCombination alt="UP" code="T" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                                 </accelerator>
+                              </MenuItem>
+                              <MenuItem fx:id="addTreesCollection" mnemonicParsing="false" text="Trees Collection">
+                                 <accelerator>
+                                    <KeyCodeCombination alt="UP" code="Q" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                                 </accelerator>
+                              </MenuItem>
+                              <Menu mnemonicParsing="false" text="Significant Building">
+                                <items>
+                                  <MenuItem fx:id="addShop" mnemonicParsing="false" text="Shop" />
+                                    <MenuItem fx:id="addSchool" mnemonicParsing="false" text="School" />
+                                    <MenuItem fx:id="addHospital" mnemonicParsing="false" text="Hospital" />
+                                    <MenuItem fx:id="addBof" mnemonicParsing="false" text="Block of flats" />
+                                    <MenuItem fx:id="addPark" mnemonicParsing="false" text="Park" />
+                                </items>
+                              </Menu>
+                              <Menu mnemonicParsing="false" text="Property">
+                                <items>
+                                  <MenuItem fx:id="addEstate" mnemonicParsing="false" text="Estate" />
+                                    <MenuItem fx:id="addFlat" mnemonicParsing="false" text="Flat" />
+                                    <MenuItem fx:id="addHouse" mnemonicParsing="false" text="House" />
+                                </items>
+                              </Menu>
+                           </items>
+                        </Menu>
+                        <MenuItem fx:id="delete" mnemonicParsing="false" text="Delete Focused">
+                           <accelerator>
+                              <KeyCodeCombination alt="UP" code="D" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                           </accelerator>
+                        </MenuItem>
+                     </items>
+                  </Menu>
+               <Menu mnemonicParsing="false" text="Help">
+                 <items>
+                   <MenuItem mnemonicParsing="false" text="About" />
+                 </items>
+               </Menu>
+             </menus>
+              <opaqueInsets>
+                 <Insets />
+              </opaqueInsets>
+              <padding>
+                 <Insets left="-0.1" />
+              </padding>
+           </MenuBar>
+         </top>
+         <center>
+        <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="602.0" prefWidth="1212.0" BorderPane.alignment="CENTER">
+               <children>
+                  <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="602.0" prefWidth="1211.0">
+                     <children>
+                        <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="602.0" prefWidth="408.0">
+                           <children>
+                              <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="599.0" prefWidth="409.0">
+                                 <children>
+                                    <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="265.0" prefWidth="404.0">
+                                       <children>
+                                          <fx:include fx:id="imageSlider" source="ImageSlider.fxml" />
+                                       </children>
+                                       <VBox.margin>
+                                          <Insets left="4.0" />
+                                       </VBox.margin>
+                                    </AnchorPane>
+                                    <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="333.0" prefWidth="406.0">
+                                       <children>
+                                          <fx:include fx:id="infoPane" source="InfoPane.fxml" />
+                                       </children>
+                                    </AnchorPane>
+                                 </children>
+                                 <padding>
+                                    <Insets left="1.0" top="1.0" />
+                                 </padding>
+                              </VBox>
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0">
+                           <children>
+                              <fx:include fx:id="mapPane" source="MapPane.fxml" />
+                           </children>
+                           <HBox.margin>
+                              <Insets top="1.0" />
+                           </HBox.margin>
+                        </AnchorPane>
+                     </children>
+                  </HBox>
+               </children>
+            </AnchorPane>
+         </center>
+      </BorderPane>
+   </children>
+</AnchorPane>

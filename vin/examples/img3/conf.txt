@@ -1,0 +1,9 @@
+Min Radius: 500
+Max Radius: 500
+
+Outline Color: -
+Outline Widht: -
+
+[ ] Circles 
+[ ] Elipses
+[x] Triangles

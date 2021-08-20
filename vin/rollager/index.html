@@ -1,0 +1,164 @@
+<!--
+Project: Rollager
+File:    index.html
+Authors: Marcin Vladimir (xmarci10@stud.fit.vutbr.cz)
+         Liscinsky Matus (xlisci02@stud.fit.vutbr.cz)
+-->
+
+
+<!DOCTYPE html>
+<html lang="en" data-ember-extension="1">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="./images/icon.png">
+
+    <title>Rollager</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="./index_files/bootstrap.min.css" rel="stylesheet">
+
+    <link href="./index_files/ie10-viewport-bug-workaround.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="./index_files/cover.css" rel="stylesheet">
+
+    <!-- CSS styles -->
+    <link href="css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+</head>
+
+<body id="body">
+
+    <!-- eye icon for hidening the menu, hold the mouse button pressed to see the effect -->
+    <a id="eye" onmousedown="mouseDown()" onmouseup="mouseUp()" class="fa fa-eye fa-3x"></a>
+
+    <!-- rendering canvas -->
+    <canvas id="rendering" style="position: absolute; display: none;"></canvas>
+
+    <div class="site-wrapper">
+        <div class="site-wrapper-inner">
+            <div class="cover-container">
+                <div id="settings" class="inner cover" style="background-color:rgba(30, 30, 30, 0.5);">
+                    <!-- tool name -->
+                    <h1>Rollager</h1>
+                    <hr />
+
+                    <!-- menu row -->
+                    <div class="row">
+                        <!-- column for shape width/height inputs -->
+                        <div class="col-md-4">
+                            <ul class="controls">
+                                <!-- Shape Width item -->
+                                <li class="input-group">
+                                    <span id="shape-width-span" class="input-group-addon">
+                                        Shape Width:
+                                    </span>
+                                    <input class="form-control" type="text" id="shape-width" />
+                                </li>
+                                <!-- Shape Height item -->
+                                <li class="input-group">
+                                    <span id="shape-height-span" class="input-group-addon">
+                                        Shape Height:
+                                    </span>
+                                    <input class="form-control" type="text" id="shape-height" />
+                                </li>
+                            </ul>
+                        </div> <!-- end of column for shape width/height inputs -->
+
+
+                        <!-- column for outline settings -->
+                        <div class="col-md-4">
+                            <ul class="controls">
+                                <!-- Outline Color item -->
+                                <li class="input-group">
+                                    <span class="input-group-addon" id="palette-preview">
+                                        Outline Color:
+                                    </span>
+                                    <!-- Color picker -->
+                                    <input class="form-control" type="color" id="colorpicker" value="#888888">
+                                </li>
+                                <!-- Outline Width item -->
+                                <li class="input-group">
+                                    <span class="input-group-addon">
+                                        Outline Width:
+                                    </span>
+                                    <div class="input-group">
+                                        <!-- Checkbox whether the outline stroke will be applied -->
+                                        <input type="checkbox" id="outline" checked="checked"
+                                            style="margin-left: 15px; margin-top: 10px;" />
+                                        <!-- Outline stroke line width -->
+                                        <input type="number" value="2" min="0" step="1" id="stroke-width"
+                                            style="margin-left: 10px; width: 80px;" />
+                                    </div>
+                                </li>
+                            </ul>
+                        </div> <!-- end of column for outline settings -->
+
+                        <!-- Mode picker -->
+                        <div class="controls" style="text-align:left">
+                            <!-- Circle mode -->
+                            <div class="form-check ">
+                                <label class="form-check-label" style="margin-left: 50px;">
+                                    <input id="radioCircles" type="radio" class="form-check-input" name="optradio">
+                                    &nbsp;&nbsp;&nbsp; Circles
+                                </label>
+                            </div>
+                            <!-- Elipse mode -->
+                            <div class="form-check">
+                                <label class="form-check-label" style="margin-left: 50px;">
+                                    <input id="radioElipses" type="radio" class="form-check-input" name="optradio">
+                                    &nbsp;&nbsp;&nbsp; Elipses
+                                </label>
+                            </div>
+                            <!-- Triangles mode -->
+                            <div class="form-check">
+                                <label class="form-check-label" style="margin-left: 50px;">
+                                    <input id="radioTriangles" checked="checked" type="radio" class="form-check-input"
+                                        name="optradio"> &nbsp;&nbsp;&nbsp; Triangles
+                                </label>
+                            </div>
+                        </div> <!-- end of Mode picker -->
+                    </div> <!-- end of menu row -->
+                    <hr />
+
+                    <!-- Action buttons -->
+                    <p class="lead" style="padding-bottom: 30px;">
+                        <!-- Upload first image, just to browser, not any server -->
+                        <span class="btn btn-lg btn-primary btn-file" onclick="uploadImage1()">Upload Image1
+                            <input id="input1" type="file"></span>
+
+                        <!-- Upload second image, just to browser, not any server -->
+                        <span id="input2button" class="btn btn-lg btn-primary btn-file" onclick="uploadImage2()">Upload Image2
+                            <input id="input2" type="file"></span>
+
+                        <!-- Generate a picture according to the user's settings and uploaded  -->
+                        <a id="generate" class="btn btn-lg btn-danger" onclick="draw()" type="button">Generate
+                            &#9881;</button>
+                        <!-- Download generated picture -->
+                        <a id="download" download="Rollage.png" class="btn btn-lg btn-danger">Download &dArr;</a>
+                        <a href="#" target="_blank" style="display: none" id="download-target"></a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="./index_files/ie10-viewport-bug-workaround.js"></script>
+    <!-- Main project script -->
+    <script src="./scripts/script.js"></script>
+</body>
+</html>

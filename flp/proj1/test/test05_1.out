@@ -1,0 +1,8 @@
+A,B,C,D,D0
+x
+A
+A->xD0
+B->xD0
+C->xD0
+D->xD0
+D0->#

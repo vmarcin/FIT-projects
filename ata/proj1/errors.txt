@@ -1,0 +1,51 @@
+## Chyby v implementacii
+
+Cart::get_prio_idx(self) 
+    -> ak funkcia zavolana nad vozikom s prazdnym slotom => AttributeError: 'NoneType' object has no attribute 'prio'
+    -> file: cart.py
+    -> line: 99
+    -> FIXED
+
+## Chyby z ohladom na specifikaciu
+
+Test ID [2] 
+    - Testovalo sa vyzdvihnutie prioritneho materialu
+    - Vstup:
+        helmet = CargoReq('A', 'D', 20, 'helmet')
+        heart = CargoReq('A', 'B', 40, 'heart')
+        pig = CargoReq('D', 'B', 30, 'pig')
+
+        Jarvis.plan(10, add_load, (c,helmet))
+        Jarvis.plan(20, add_load, (c,heart))
+        Jarvis.plan(40, add_load, (c,pig))
+    
+    - Ocakavanie:
+        nalozenie prioritneho materialu v case 84
+    - Realita:
+            self.assertEqual('loaded', heart.context)
+        AssertionError: 'loaded' != None
+
+        odignoruje prioritnu poziadavku na zastavke A 
+
+Test ID [3]
+    - Dlzka cesty k materialu viac ako minuta => material je prioritny 
+      a stihne sa nalozit
+    - Vstup:
+        helmet = CargoReq('A', 'D', 20, 'helmet')
+        pig = CargoReq('D', 'B', 30, 'pig')
+        pen = CargoReq('C', 'B', 10, 'pen')
+        heart = CargoReq('A', 'B', 20, 'heart')   # prioritny material
+    
+        Jarvis.plan(10, add_load, (c,helmet))
+        Jarvis.plan(13, add_load, (c,heart))
+        Jarvis.plan(40, add_load, (c,pig))
+        Jarvis.plan(25, add_load, (c,pen))
+    - Ocakavanie:
+        nastavenie rezimu UnloadOnly az po nalozeni prioritneho materialu
+    - Realita:
+            self.assertEqual(ctrl.status, Status.Normal)
+        AssertionError: <Status.UnloadOnly: 1> != <Status.Normal: 0>
+
+        ako nahle sa material (heart) stane prioritnym (ubehne minuta of vytvorenia
+        poziadavky) rezim sa zmeni na UnloadOnly aj bez nalozenia
+    

@@ -1,0 +1,1492 @@
+<?xml version="1.0" encoding="ISO-8859-1"?><pnml xmlns = "http://www.irt.rwth-aachen.de/download/netlab/pntd/pnsmNet">
+  <net id = "n1"
+       type = "http://www.irt.rwth-aachen.de/download/netlab/pntd/pnsmNet">
+    <name>
+      <text>xmarci10</text>
+    </name>
+    <place id = "p1">
+      <graphics>
+        <position x = "1300"
+                  y = "520"/>
+        <dimension x = "40"
+                   y = "40"/>
+        <line width = "2"
+              color = "#0000FF"/>
+      </graphics>
+      <initialMarking>
+        <text>0</text>
+      </initialMarking>
+      <capacity>
+        <text>1</text>
+      </capacity>
+      <name>
+        <text>p(1)</text>
+        <graphics>
+          <offset x = "0"
+                  y = "-28"/>
+        </graphics>
+        <toolspecific tool = "netlab"
+                      version = "1.8">
+          <developer_release version = "1,8,0,0"
+                             build = "3381"
+                             svn_revision = "419"
+                             year = "2007"
+                             month = "06"
+                             day = "22"/>
+          <description>
+            <text>shared</text>
+          </description>
+        </toolspecific>
+      </name>
+    </place>
+    <place id = "p2">
+      <graphics>
+        <position x = "1180"
+                  y = "520"/>
+        <dimension x = "40"
+                   y = "40"/>
+        <line width = "2"
+              color = "#0000FF"/>
+      </graphics>
+      <initialMarking>
+        <text>1</text>
+      </initialMarking>
+      <capacity>
+        <text>1</text>
+      </capacity>
+      <name>
+        <text>p(0)</text>
+        <graphics>
+          <offset x = "0"
+                  y = "-28"/>
+        </graphics>
+        <toolspecific tool = "netlab"
+                      version = "1.8">
+          <developer_release version = "1,8,0,0"
+                             build = "3381"
+                             svn_revision = "419"
+                             year = "2007"
+                             month = "06"
+                             day = "22"/>
+          <description>
+            <text>shared</text>
+          </description>
+        </toolspecific>
+      </name>
+    </place>
+    <place id = "p3">
+      <graphics>
+        <position x = "1300"
+                  y = "280"/>
+        <dimension x = "40"
+                   y = "40"/>
+        <line width = "2"
+              color = "#0000FF"/>
+      </graphics>
+      <initialMarking>
+        <text>0</text>
+      </initialMarking>
+      <capacity>
+        <text>1</text>
+      </capacity>
+      <name>
+        <text>flag[0](true)</text>
+        <graphics>
+          <offset x = "0"
+                  y = "-28"/>
+        </graphics>
+        <toolspecific tool = "netlab"
+                      version = "1.8">
+          <developer_release version = "1,8,0,0"
+                             build = "3381"
+                             svn_revision = "419"
+                             year = "2007"
+                             month = "06"
+                             day = "22"/>
+          <description>
+            <text>shared</text>
+          </description>
+        </toolspecific>
+      </name>
+    </place>
+    <place id = "p4">
+      <graphics>
+        <position x = "1180"
+                  y = "280"/>
+        <dimension x = "40"
+                   y = "40"/>
+        <line width = "2"
+              color = "#0000FF"/>
+      </graphics>
+      <initialMarking>
+        <text>1</text>
+      </initialMarking>
+      <capacity>
+        <text>1</text>
+      </capacity>
+      <name>
+        <text>flag[0](false)</text>
+        <graphics>
+          <offset x = "0"
+                  y = "-28"/>
+        </graphics>
+        <toolspecific tool = "netlab"
+                      version = "1.8">
+          <developer_release version = "1,8,0,0"
+                             build = "3381"
+                             svn_revision = "419"
+                             year = "2007"
+                             month = "06"
+                             day = "22"/>
+          <description>
+            <text>shared</text>
+          </description>
+        </toolspecific>
+      </name>
+    </place>
+    <place id = "p5">
+      <graphics>
+        <position x = "1300"
+                  y = "820"/>
+        <dimension x = "40"
+                   y = "40"/>
+        <line width = "2"
+              color = "#0000FF"/>
+      </graphics>
+      <initialMarking>
+        <text>0</text>
+      </initialMarking>
+      <capacity>
+        <text>1</text>
+      </capacity>
+      <name>
+        <text>flag[1](true)</text>
+        <graphics>
+          <offset x = "0"
+                  y = "-28"/>
+        </graphics>
+        <toolspecific tool = "netlab"
+                      version = "1.8">
+          <developer_release version = "1,8,0,0"
+                             build = "3381"
+                             svn_revision = "419"
+                             year = "2007"
+                             month = "06"
+                             day = "22"/>
+          <description>
+            <text>shared</text>
+          </description>
+        </toolspecific>
+      </name>
+    </place>
+    <place id = "p6">
+      <graphics>
+        <position x = "1180"
+                  y = "820"/>
+        <dimension x = "40"
+                   y = "40"/>
+        <line width = "2"
+              color = "#0000FF"/>
+      </graphics>
+      <initialMarking>
+        <text>1</text>
+      </initialMarking>
+      <capacity>
+        <text>1</text>
+      </capacity>
+      <name>
+        <text>flag[1](false)</text>
+        <graphics>
+          <offset x = "0"
+                  y = "-28"/>
+        </graphics>
+        <toolspecific tool = "netlab"
+                      version = "1.8">
+          <developer_release version = "1,8,0,0"
+                             build = "3381"
+                             svn_revision = "419"
+                             year = "2007"
+                             month = "06"
+                             day = "22"/>
+          <description>
+            <text>shared</text>
+          </description>
+        </toolspecific>
+      </name>
+    </place>
+    <place id = "p7">
+      <graphics>
+        <position x = "720"
+                  y = "340"/>
+        <dimension x = "40"
+                   y = "40"/>
+      </graphics>
+      <initialMarking>
+        <text>0</text>
+      </initialMarking>
+      <capacity>
+        <text>1</text>
+      </capacity>
+      <name>
+        <text>2: flag[0] = true</text>
+        <graphics>
+          <offset x = "-10"
+                  y = "-28"/>
+          <font family = ""
+                align = "right"/>
+        </graphics>
+        <toolspecific tool = "netlab"
+                      version = "1.8">
+          <developer_release version = "1,8,0,0"
+                             build = "3381"
+                             svn_revision = "419"
+                             year = "2007"
+                             month = "06"
+                             day = "22"/>
+          <description>
+            <graphics>
+              <offset x = "10"
+                      y = "28"/>
+              <font family = ""
+                    align = "left"/>
+            </graphics>
+          </description>
+        </toolspecific>
+      </name>
+    </place>
+    <place id = "p8">
+      <graphics>
+        <position x = "720"
+                  y = "500"/>
+        <dimension x = "40"
+                   y = "40"/>
+      </graphics>
+      <initialMarking>
+        <text>0</text>
+      </initialMarking>
+      <capacity>
+        <text>1</text>
+      </capacity>
+      <name>
+        <text>3: if (p != 0)</text>
+        <graphics>
+          <offset x = "-10"
+                  y = "-28"/>
+          <font family = ""
+                align = "right"/>
+        </graphics>
+        <toolspecific tool = "netlab"
+                      version = "1.8">
+          <developer_release version = "1,8,0,0"
+                             build = "3381"
+                             svn_revision = "419"
+                             year = "2007"
+                             month = "06"
+                             day = "22"/>
+          <description>
+            <graphics>
+              <offset x = "10"
+                      y = "28"/>
+              <font family = ""
+                    align = "left"/>
+            </graphics>
+          </description>
+        </toolspecific>
+      </name>
+    </place>
+    <place id = "p9">
+      <graphics>
+        <position x = "826"
+                  y = "720"/>
+        <dimension x = "40"
+                   y = "40"/>
+      </graphics>
+      <initialMarking>
+        <text>0</text>
+      </initialMarking>
+      <capacity>
+        <text>1</text>
+      </capacity>
+      <name>
+        <text>4: wait until not(flag[1])</text>
+        <graphics>
+          <offset x = "-10"
+                  y = "-28"/>
+          <font family = ""
+                align = "right"/>
+        </graphics>
+      </name>
+    </place>
+    <place id = "p10">
+      <graphics>
+        <position x = "826"
+                  y = "900"/>
+        <dimension x = "40"
+                   y = "40"/>
+      </graphics>
+      <initialMarking>
+        <text>0</text>
+      </initialMarking>
+      <capacity>
+        <text>1</text>
+      </capacity>
+      <name>
+        <text>5: p = 0</text>
+        <graphics>
+          <offset x = "-10"
+                  y = "-28"/>
+          <font family = ""
+                align = "right"/>
+        </graphics>
+      </name>
+    </place>
+    <place id = "p11">
+      <graphics>
+        <position x = "626"
+                  y = "1000"/>
+        <dimension x = "40"
+                   y = "40"/>
+      </graphics>
+      <initialMarking>
+        <text>0</text>
+      </initialMarking>
+      <capacity>
+        <text>1</text>
+      </capacity>
+      <name>
+        <text>6: if flag[1]</text>
+        <graphics>
+          <offset x = "-10"
+                  y = "-28"/>
+          <font family = ""
+                align = "right"/>
+        </graphics>
+      </name>
+    </place>
+    <place id = "p12">
+      <graphics>
+        <position x = "1140"
+                  y = "1160"/>
+        <dimension x = "40"
+                   y = "40"/>
+      </graphics>
+      <initialMarking>
+        <text>0</text>
+      </initialMarking>
+      <capacity>
+        <text>1</text>
+      </capacity>
+      <name>
+        <text>7: critical section</text>
+        <graphics>
+          <offset x = "0"
+                  y = "-28"/>
+        </graphics>
+      </name>
+    </place>
+    <place id = "p13">
+      <graphics>
+        <position x = "1140"
+                  y = "1340"/>
+        <dimension x = "40"
+                   y = "40"/>
+      </graphics>
+      <initialMarking>
+        <text>0</text>
+      </initialMarking>
+      <capacity>
+        <text>1</text>
+      </capacity>
+      <name>
+        <text>8: flag[0] = false</text>
+        <graphics>
+          <offset x = "-10"
+                  y = "-28"/>
+          <font family = ""
+                align = "right"/>
+        </graphics>
+      </name>
+    </place>
+    <place id = "p14">
+      <graphics>
+        <position x = "720"
+                  y = "180"/>
+        <dimension x = "40"
+                   y = "40"/>
+      </graphics>
+      <initialMarking>
+        <text>1</text>
+      </initialMarking>
+      <capacity>
+        <text>1</text>
+      </capacity>
+      <name>
+        <text>1: while (true) do</text>
+        <graphics>
+          <offset x = "-10"
+                  y = "-28"/>
+          <font family = ""
+                align = "right"/>
+        </graphics>
+        <toolspecific tool = "netlab"
+                      version = "1.8">
+          <developer_release version = "1,8,0,0"
+                             build = "3381"
+                             svn_revision = "419"
+                             year = "2007"
+                             month = "06"
+                             day = "22"/>
+          <description>
+            <graphics>
+              <offset x = "10"
+                      y = "28"/>
+              <font family = ""
+                    align = "left"/>
+            </graphics>
+          </description>
+        </toolspecific>
+      </name>
+    </place>
+    <place id = "p15">
+      <graphics>
+        <position x = "1760"
+                  y = "340"/>
+        <dimension x = "40"
+                   y = "40"/>
+      </graphics>
+      <initialMarking>
+        <text>0</text>
+      </initialMarking>
+      <capacity>
+        <text>1</text>
+      </capacity>
+      <name>
+        <text>2: flag[1] = true</text>
+        <graphics>
+          <offset x = "10"
+                  y = "-28"/>
+          <font family = ""
+                align = "left"/>
+        </graphics>
+        <toolspecific tool = "netlab"
+                      version = "1.8">
+          <developer_release version = "1,8,0,0"
+                             build = "3381"
+                             svn_revision = "419"
+                             year = "2007"
+                             month = "06"
+                             day = "22"/>
+          <description>
+            <graphics>
+              <offset x = "10"
+                      y = "28"/>
+              <font family = ""
+                    align = "left"/>
+            </graphics>
+          </description>
+        </toolspecific>
+      </name>
+    </place>
+    <place id = "p16">
+      <graphics>
+        <position x = "1760"
+                  y = "500"/>
+        <dimension x = "40"
+                   y = "40"/>
+      </graphics>
+      <initialMarking>
+        <text>0</text>
+      </initialMarking>
+      <capacity>
+        <text>1</text>
+      </capacity>
+      <name>
+        <text>3: if (p != 1)</text>
+        <graphics>
+          <offset x = "10"
+                  y = "-28"/>
+          <font family = ""
+                align = "left"/>
+        </graphics>
+        <toolspecific tool = "netlab"
+                      version = "1.8">
+          <developer_release version = "1,8,0,0"
+                             build = "3381"
+                             svn_revision = "419"
+                             year = "2007"
+                             month = "06"
+                             day = "22"/>
+          <description>
+            <graphics>
+              <offset x = "10"
+                      y = "28"/>
+              <font family = ""
+                    align = "left"/>
+            </graphics>
+          </description>
+        </toolspecific>
+      </name>
+    </place>
+    <place id = "p17">
+      <graphics>
+        <position x = "1660"
+                  y = "720"/>
+        <dimension x = "40"
+                   y = "40"/>
+      </graphics>
+      <initialMarking>
+        <text>0</text>
+      </initialMarking>
+      <capacity>
+        <text>1</text>
+      </capacity>
+      <name>
+        <text>4: wait until not(flag[0])</text>
+        <graphics>
+          <offset x = "10"
+                  y = "-28"/>
+          <font family = ""
+                align = "left"/>
+        </graphics>
+      </name>
+    </place>
+    <place id = "p18">
+      <graphics>
+        <position x = "1660"
+                  y = "900"/>
+        <dimension x = "40"
+                   y = "40"/>
+      </graphics>
+      <initialMarking>
+        <text>0</text>
+      </initialMarking>
+      <capacity>
+        <text>1</text>
+      </capacity>
+      <name>
+        <text>5: p = 1</text>
+        <graphics>
+          <offset x = "10"
+                  y = "-28"/>
+          <font family = ""
+                align = "left"/>
+        </graphics>
+      </name>
+    </place>
+    <place id = "p19">
+      <graphics>
+        <position x = "1860"
+                  y = "1000"/>
+        <dimension x = "40"
+                   y = "40"/>
+      </graphics>
+      <initialMarking>
+        <text>0</text>
+      </initialMarking>
+      <capacity>
+        <text>1</text>
+      </capacity>
+      <name>
+        <text>6: if flag[0]</text>
+        <graphics>
+          <offset x = "10"
+                  y = "-28"/>
+          <font family = ""
+                align = "left"/>
+        </graphics>
+      </name>
+    </place>
+    <place id = "p20">
+      <graphics>
+        <position x = "1340"
+                  y = "1340"/>
+        <dimension x = "40"
+                   y = "40"/>
+      </graphics>
+      <initialMarking>
+        <text>0</text>
+      </initialMarking>
+      <capacity>
+        <text>1</text>
+      </capacity>
+      <name>
+        <text>8: flag[1] = false</text>
+        <graphics>
+          <offset x = "10"
+                  y = "-28"/>
+          <font family = ""
+                align = "left"/>
+        </graphics>
+      </name>
+    </place>
+    <place id = "p21">
+      <graphics>
+        <position x = "1760"
+                  y = "180"/>
+        <dimension x = "40"
+                   y = "40"/>
+      </graphics>
+      <initialMarking>
+        <text>1</text>
+      </initialMarking>
+      <capacity>
+        <text>1</text>
+      </capacity>
+      <name>
+        <text>1: while (true) do</text>
+        <graphics>
+          <offset x = "10"
+                  y = "-28"/>
+          <font family = ""
+                align = "left"/>
+        </graphics>
+        <toolspecific tool = "netlab"
+                      version = "1.8">
+          <developer_release version = "1,8,0,0"
+                             build = "3381"
+                             svn_revision = "419"
+                             year = "2007"
+                             month = "06"
+                             day = "22"/>
+          <description>
+            <graphics>
+              <offset x = "10"
+                      y = "28"/>
+              <font family = ""
+                    align = "left"/>
+            </graphics>
+          </description>
+        </toolspecific>
+      </name>
+    </place>
+    <place id = "p22">
+      <graphics>
+        <position x = "1340"
+                  y = "1160"/>
+        <dimension x = "40"
+                   y = "40"/>
+      </graphics>
+      <initialMarking>
+        <text>0</text>
+      </initialMarking>
+      <capacity>
+        <text>1</text>
+      </capacity>
+      <name>
+        <text>7: critical section</text>
+        <graphics>
+          <offset x = "0"
+                  y = "-28"/>
+        </graphics>
+      </name>
+    </place>
+    <transition id = "t1">
+      <graphics>
+        <position x = "720"
+                  y = "260"/>
+        <dimension x = "40"
+                   y = "40"/>
+      </graphics>
+    </transition>
+    <transition id = "t2">
+      <graphics>
+        <position x = "720"
+                  y = "420"/>
+        <dimension x = "40"
+                   y = "40"/>
+      </graphics>
+    </transition>
+    <transition id = "t3">
+      <graphics>
+        <position x = "826"
+                  y = "620"/>
+        <dimension x = "40"
+                   y = "40"/>
+      </graphics>
+    </transition>
+    <transition id = "t4">
+      <graphics>
+        <position x = "626"
+                  y = "620"/>
+        <dimension x = "40"
+                   y = "40"/>
+      </graphics>
+    </transition>
+    <transition id = "t5">
+      <graphics>
+        <position x = "826"
+                  y = "800"/>
+        <dimension x = "40"
+                   y = "40"/>
+      </graphics>
+    </transition>
+    <transition id = "t6">
+      <graphics>
+        <position x = "826"
+                  y = "1000"/>
+        <dimension x = "40"
+                   y = "40"/>
+      </graphics>
+    </transition>
+    <transition id = "t7">
+      <graphics>
+        <position x = "540"
+                  y = "1080"/>
+        <dimension x = "40"
+                   y = "40"/>
+      </graphics>
+    </transition>
+    <transition id = "t8">
+      <graphics>
+        <position x = "706"
+                  y = "1080"/>
+        <dimension x = "40"
+                   y = "40"/>
+      </graphics>
+    </transition>
+    <transition id = "t9">
+      <graphics>
+        <position x = "1140"
+                  y = "1240"/>
+        <dimension x = "40"
+                   y = "40"/>
+      </graphics>
+    </transition>
+    <transition id = "t10">
+      <graphics>
+        <position x = "920"
+                  y = "1340"/>
+        <dimension x = "40"
+                   y = "40"/>
+      </graphics>
+    </transition>
+    <transition id = "t11">
+      <graphics>
+        <position x = "1760"
+                  y = "260"/>
+        <dimension x = "40"
+                   y = "40"/>
+      </graphics>
+    </transition>
+    <transition id = "t12">
+      <graphics>
+        <position x = "1760"
+                  y = "420"/>
+        <dimension x = "40"
+                   y = "40"/>
+      </graphics>
+    </transition>
+    <transition id = "t13">
+      <graphics>
+        <position x = "1660"
+                  y = "620"/>
+        <dimension x = "40"
+                   y = "40"/>
+      </graphics>
+    </transition>
+    <transition id = "t14">
+      <graphics>
+        <position x = "1860"
+                  y = "620"/>
+        <dimension x = "40"
+                   y = "40"/>
+      </graphics>
+    </transition>
+    <transition id = "t15">
+      <graphics>
+        <position x = "1660"
+                  y = "800"/>
+        <dimension x = "40"
+                   y = "40"/>
+      </graphics>
+    </transition>
+    <transition id = "t16">
+      <graphics>
+        <position x = "1660"
+                  y = "1000"/>
+        <dimension x = "40"
+                   y = "40"/>
+      </graphics>
+    </transition>
+    <transition id = "t17">
+      <graphics>
+        <position x = "1940"
+                  y = "1080"/>
+        <dimension x = "40"
+                   y = "40"/>
+      </graphics>
+    </transition>
+    <transition id = "t18">
+      <graphics>
+        <position x = "1780"
+                  y = "1080"/>
+        <dimension x = "40"
+                   y = "40"/>
+      </graphics>
+    </transition>
+    <transition id = "t19">
+      <graphics>
+        <position x = "1340"
+                  y = "1240"/>
+        <dimension x = "40"
+                   y = "40"/>
+      </graphics>
+    </transition>
+    <transition id = "t20">
+      <graphics>
+        <position x = "1560"
+                  y = "1340"/>
+        <dimension x = "40"
+                   y = "40"/>
+      </graphics>
+    </transition>
+    <arc id = "a1"
+         source = "t1"
+         target = "p7"/>
+    <arc id = "a2"
+         source = "p7"
+         target = "t2"/>
+    <arc id = "a3"
+         source = "t2"
+         target = "p8"/>
+    <arc id = "a4"
+         source = "p8"
+         target = "t3"/>
+    <arc id = "a5"
+         source = "p8"
+         target = "t4"/>
+    <arc id = "a6"
+         source = "t3"
+         target = "p9"/>
+    <arc id = "a7"
+         source = "p9"
+         target = "t5"/>
+    <arc id = "a8"
+         source = "t5"
+         target = "p10"/>
+    <arc id = "a9"
+         source = "t4"
+         target = "p11"/>
+    <arc id = "a10"
+         source = "p10"
+         target = "t6"/>
+    <arc id = "a11"
+         source = "t6"
+         target = "p11"/>
+    <arc id = "a12"
+         source = "p11"
+         target = "t7"/>
+    <arc id = "a13"
+         source = "p11"
+         target = "t8"/>
+    <arc id = "a14"
+         source = "p12"
+         target = "t9"/>
+    <arc id = "a15"
+         source = "t9"
+         target = "p13"/>
+    <arc id = "a16"
+         source = "p13"
+         target = "t10"/>
+    <arc id = "a17"
+         source = "p14"
+         target = "t1"/>
+    <arc id = "a18"
+         source = "t10"
+         target = "p14">
+      <graphics>
+        <position x = "420"
+                  y = "1340"/>
+        <position x = "420"
+                  y = "180"/>
+      </graphics>
+    </arc>
+    <arc id = "a19"
+         source = "t11"
+         target = "p15"/>
+    <arc id = "a20"
+         source = "p15"
+         target = "t12"/>
+    <arc id = "a21"
+         source = "t12"
+         target = "p16"/>
+    <arc id = "a22"
+         source = "p16"
+         target = "t13"/>
+    <arc id = "a23"
+         source = "p16"
+         target = "t14"/>
+    <arc id = "a24"
+         source = "t13"
+         target = "p17"/>
+    <arc id = "a25"
+         source = "p17"
+         target = "t15"/>
+    <arc id = "a26"
+         source = "t15"
+         target = "p18"/>
+    <arc id = "a27"
+         source = "t14"
+         target = "p19"/>
+    <arc id = "a28"
+         source = "p18"
+         target = "t16"/>
+    <arc id = "a29"
+         source = "t16"
+         target = "p19"/>
+    <arc id = "a30"
+         source = "p19"
+         target = "t17"/>
+    <arc id = "a31"
+         source = "p19"
+         target = "t18"/>
+    <arc id = "a32"
+         source = "t19"
+         target = "p20"/>
+    <arc id = "a33"
+         source = "p20"
+         target = "t20"/>
+    <arc id = "a34"
+         source = "p21"
+         target = "t11"/>
+    <arc id = "a35"
+         source = "t20"
+         target = "p21">
+      <graphics>
+        <position x = "2060"
+                  y = "1340"/>
+        <position x = "2060"
+                  y = "180"/>
+      </graphics>
+    </arc>
+    <arc id = "a36"
+         source = "t8"
+         target = "p12">
+      <graphics>
+        <position x = "707"
+                  y = "1160"/>
+      </graphics>
+    </arc>
+    <arc id = "a37"
+         source = "p2"
+         target = "t4"
+         type = "read">
+      <graphics>
+        <position x = "780"
+                  y = "520"/>
+        <position x = "700"
+                  y = "620"/>
+        <line width = "2"
+              color = "#80FF80"/>
+      </graphics>
+    </arc>
+    <arc id = "a38"
+         source = "p1"
+         target = "t14"
+         type = "read">
+      <graphics>
+        <position x = "1680"
+                  y = "520"/>
+        <position x = "1780"
+                  y = "620"/>
+        <line width = "2"
+              color = "#FF8000"/>
+      </graphics>
+    </arc>
+    <arc id = "a39"
+         source = "p1"
+         target = "t3"
+         type = "read">
+      <graphics>
+        <position x = "1280"
+                  y = "560"/>
+        <position x = "880"
+                  y = "560"/>
+        <line width = "2"
+              color = "#80FF80"/>
+      </graphics>
+    </arc>
+    <arc id = "a40"
+         source = "p2"
+         target = "t13"
+         type = "read">
+      <graphics>
+        <position x = "1220"
+                  y = "580"/>
+        <position x = "1620"
+                  y = "580"/>
+        <line width = "2"
+              color = "#FF8000"/>
+      </graphics>
+    </arc>
+    <arc id = "a41"
+         source = "t6"
+         target = "p2">
+      <graphics>
+        <position x = "860"
+                  y = "980"/>
+        <position x = "860"
+                  y = "600"/>
+        <position x = "920"
+                  y = "540"/>
+        <position x = "1140"
+                  y = "540"/>
+        <line width = "2"
+              color = "#80FF80"/>
+      </graphics>
+    </arc>
+    <arc id = "a42"
+         source = "p1"
+         target = "t6">
+      <graphics>
+        <position x = "1260"
+                  y = "520"/>
+        <position x = "1200"
+                  y = "580"/>
+        <position x = "920"
+                  y = "580"/>
+        <position x = "880"
+                  y = "620"/>
+        <position x = "880"
+                  y = "1000"/>
+        <line width = "2"
+              color = "#80FF80"/>
+      </graphics>
+    </arc>
+    <arc id = "a43"
+         source = "t16"
+         target = "p1">
+      <graphics>
+        <position x = "1620"
+                  y = "980"/>
+        <position x = "1620"
+                  y = "560"/>
+        <position x = "1600"
+                  y = "540"/>
+        <position x = "1340"
+                  y = "540"/>
+        <line width = "2"
+              color = "#FF8000"/>
+      </graphics>
+    </arc>
+    <arc id = "a44"
+         source = "p2"
+         target = "t16">
+      <graphics>
+        <position x = "1220"
+                  y = "520"/>
+        <position x = "1300"
+                  y = "600"/>
+        <position x = "1580"
+                  y = "600"/>
+        <position x = "1600"
+                  y = "620"/>
+        <position x = "1600"
+                  y = "1000"/>
+        <line width = "2"
+              color = "#FF8000"/>
+      </graphics>
+    </arc>
+    <arc id = "a45"
+         source = "p4"
+         target = "t2">
+      <graphics>
+        <position x = "780"
+                  y = "280"/>
+        <position x = "760"
+                  y = "300"/>
+        <position x = "760"
+                  y = "400"/>
+        <line width = "2"
+              color = "#80FF80"/>
+      </graphics>
+    </arc>
+    <arc id = "a46"
+         source = "t2"
+         target = "p3">
+      <graphics>
+        <position x = "760"
+                  y = "420"/>
+        <position x = "780"
+                  y = "400"/>
+        <position x = "780"
+                  y = "300"/>
+        <position x = "820"
+                  y = "260"/>
+        <position x = "1260"
+                  y = "260"/>
+        <line width = "2"
+              color = "#80FF80"/>
+      </graphics>
+    </arc>
+    <arc id = "a47"
+         source = "t10"
+         target = "p4">
+      <graphics>
+        <position x = "900"
+                  y = "1300"/>
+        <position x = "900"
+                  y = "320"/>
+        <position x = "920"
+                  y = "300"/>
+        <position x = "1140"
+                  y = "300"/>
+        <line width = "2"
+              color = "#80FF80"/>
+      </graphics>
+    </arc>
+    <arc id = "a48"
+         source = "p6"
+         target = "t8"
+         type = "read">
+      <graphics>
+        <position x = "1140"
+                  y = "840"/>
+        <position x = "980"
+                  y = "840"/>
+        <position x = "960"
+                  y = "860"/>
+        <position x = "960"
+                  y = "1080"/>
+        <line width = "2"
+              color = "#80FF80"/>
+      </graphics>
+    </arc>
+    <arc id = "a49"
+         source = "p5"
+         target = "t7"
+         type = "read">
+      <graphics>
+        <position x = "1280"
+                  y = "860"/>
+        <position x = "1000"
+                  y = "860"/>
+        <position x = "980"
+                  y = "880"/>
+        <position x = "980"
+                  y = "1120"/>
+        <position x = "960"
+                  y = "1140"/>
+        <position x = "540"
+                  y = "1140"/>
+        <line width = "2"
+              color = "#80FF80"/>
+      </graphics>
+    </arc>
+    <arc id = "a50"
+         source = "p3"
+         target = "t9">
+      <graphics>
+        <position x = "1260"
+                  y = "320"/>
+        <position x = "940"
+                  y = "320"/>
+        <position x = "920"
+                  y = "340"/>
+        <position x = "920"
+                  y = "1220"/>
+        <position x = "940"
+                  y = "1240"/>
+        <line width = "2"
+              color = "#80FF80"/>
+      </graphics>
+    </arc>
+    <arc id = "a51"
+         source = "p5"
+         target = "t19">
+      <graphics>
+        <position x = "1380"
+                  y = "820"/>
+        <position x = "1400"
+                  y = "840"/>
+        <position x = "1400"
+                  y = "1220"/>
+        <position x = "1380"
+                  y = "1240"/>
+        <line width = "2"
+              color = "#FF8000"/>
+      </graphics>
+    </arc>
+    <arc id = "a52"
+         source = "p6"
+         target = "t12">
+      <graphics>
+        <position x = "1220"
+                  y = "820"/>
+        <position x = "1280"
+                  y = "760"/>
+        <position x = "1540"
+                  y = "760"/>
+        <position x = "1560"
+                  y = "740"/>
+        <position x = "1560"
+                  y = "500"/>
+        <position x = "1560"
+                  y = "460"/>
+        <position x = "1560"
+                  y = "440"/>
+        <position x = "1580"
+                  y = "420"/>
+        <position x = "1720"
+                  y = "420"/>
+        <line width = "2"
+              color = "#FF8000"/>
+      </graphics>
+    </arc>
+    <arc id = "a53"
+         source = "t12"
+         target = "p5">
+      <graphics>
+        <position x = "1740"
+                  y = "440"/>
+        <position x = "1600"
+                  y = "440"/>
+        <position x = "1580"
+                  y = "460"/>
+        <position x = "1580"
+                  y = "780"/>
+        <position x = "1560"
+                  y = "800"/>
+        <position x = "1460"
+                  y = "800"/>
+        <position x = "1440"
+                  y = "800"/>
+        <position x = "1320"
+                  y = "800"/>
+        <line width = "2"
+              color = "#FF8000"/>
+      </graphics>
+    </arc>
+    <arc id = "a54"
+         source = "p4"
+         target = "t15"
+         type = "read">
+      <graphics>
+        <position x = "1220"
+                  y = "280"/>
+        <position x = "1260"
+                  y = "240"/>
+        <position x = "1500"
+                  y = "240"/>
+        <position x = "1520"
+                  y = "260"/>
+        <position x = "1520"
+                  y = "820"/>
+        <position x = "1540"
+                  y = "840"/>
+        <position x = "1640"
+                  y = "840"/>
+        <line width = "2"
+              color = "#FF8000"/>
+      </graphics>
+    </arc>
+    <arc id = "a55"
+         source = "p3"
+         target = "t17"
+         type = "read">
+      <graphics>
+        <position x = "1320"
+                  y = "300"/>
+        <position x = "1980"
+                  y = "300"/>
+        <position x = "2000"
+                  y = "320"/>
+        <position x = "2000"
+                  y = "1020"/>
+        <line width = "2"
+              color = "#FF8000"/>
+      </graphics>
+    </arc>
+    <arc id = "a56"
+         source = "p4"
+         target = "t18"
+         type = "read">
+      <graphics>
+        <position x = "1180"
+                  y = "340"/>
+        <position x = "1200"
+                  y = "360"/>
+        <position x = "1480"
+                  y = "360"/>
+        <position x = "1500"
+                  y = "380"/>
+        <position x = "1500"
+                  y = "1060"/>
+        <position x = "1520"
+                  y = "1080"/>
+        <line width = "2"
+              color = "#FF8000"/>
+      </graphics>
+    </arc>
+    <arc id = "a57"
+         source = "t7"
+         target = "p8">
+      <graphics>
+        <position x = "480"
+                  y = "1080"/>
+        <position x = "460"
+                  y = "1060"/>
+        <position x = "460"
+                  y = "520"/>
+        <position x = "480"
+                  y = "500"/>
+      </graphics>
+    </arc>
+    <arc id = "a58"
+         source = "t17"
+         target = "p16">
+      <graphics>
+        <position x = "2000"
+                  y = "1080"/>
+        <position x = "2020"
+                  y = "1060"/>
+        <position x = "2020"
+                  y = "540"/>
+        <position x = "1980"
+                  y = "500"/>
+      </graphics>
+    </arc>
+    <arc id = "a59"
+         source = "t18"
+         target = "p22">
+      <graphics>
+        <position x = "1780"
+                  y = "1160"/>
+      </graphics>
+    </arc>
+    <arc id = "a60"
+         source = "p22"
+         target = "t19"/>
+    <arc id = "a61"
+         source = "p6"
+         target = "t5"
+         type = "read">
+      <graphics>
+        <position x = "980"
+                  y = "820"/>
+        <position x = "960"
+                  y = "800"/>
+        <line width = "2"
+              color = "#80FF80"/>
+      </graphics>
+    </arc>
+    <arc id = "a62"
+         source = "t20"
+         target = "p6">
+      <graphics>
+        <position x = "1560"
+                  y = "1280"/>
+        <position x = "1540"
+                  y = "1260"/>
+        <position x = "1440"
+                  y = "1260"/>
+        <position x = "1420"
+                  y = "1240"/>
+        <position x = "1420"
+                  y = "920"/>
+        <position x = "1380"
+                  y = "880"/>
+        <position x = "1280"
+                  y = "880"/>
+        <position x = "1220"
+                  y = "880"/>
+        <position x = "1200"
+                  y = "840"/>
+        <line width = "2"
+              color = "#FF8000"/>
+      </graphics>
+    </arc>
+    <toolspecific tool = "netlab"
+                  version = "1.8">
+      <developer_release version = "1,8,0,0"
+                         build = "3381"
+                         svn_revision = "419"
+                         year = "2007"
+                         month = "06"
+                         day = "22"/>
+      <comments>
+        <comment id = "c1">
+          <graphics>
+            <position x = "826"
+                      y = "580"/>
+          </graphics>
+          <text>then</text>
+        </comment>
+        <comment id = "c2">
+          <graphics>
+            <position x = "626"
+                      y = "580"/>
+          </graphics>
+          <text>else</text>
+        </comment>
+        <comment id = "c3">
+          <graphics>
+            <position x = "546"
+                      y = "1040"/>
+          </graphics>
+          <text>then</text>
+        </comment>
+        <comment id = "c4">
+          <graphics>
+            <position x = "706"
+                      y = "1040"/>
+          </graphics>
+          <text>else</text>
+        </comment>
+        <comment id = "c5">
+          <graphics>
+            <position x = "1660"
+                      y = "580"/>
+          </graphics>
+          <text>then</text>
+        </comment>
+        <comment id = "c6">
+          <graphics>
+            <position x = "1860"
+                      y = "580"/>
+          </graphics>
+          <text>else</text>
+        </comment>
+        <comment id = "c7">
+          <graphics>
+            <position x = "1940"
+                      y = "1040"/>
+          </graphics>
+          <text>then</text>
+        </comment>
+        <comment id = "c8">
+          <graphics>
+            <position x = "1780"
+                      y = "1040"/>
+          </graphics>
+          <text>else</text>
+        </comment>
+        <comment id = "c9">
+          <graphics>
+            <position x = "1220"
+                      y = "1080"/>
+          </graphics>
+          <text>V kritickej sekcii (miesta 12 a 22) sa bude vzdy 
+vyskytovat naraz iba jedna znacka</text>
+        </comment>
+      </comments>
+      <view xmlns = "http://www.irt.rwth-aachen.de/download/netlab"
+            zoom = "75"
+            grid = "true"
+            numbering = "true"
+            names = "false"
+            description = "true"
+            colored_invariants = "true">
+        <scrollerposition x = "0"
+                          y = "0"/>
+      </view>
+      <calculation xmlns = "http://www.irt.rwth-aachen.de/download/netlab"
+                   autocalculate_invariants = "false"
+                   firing_rule = "strong"/>
+      <petrinetstatemodel self_loops = "true"
+                          io_extensions = "true"
+                          test_arcs = "allowed_at_all_nodes"
+                          inhibitor_arcs = "allowed_at_input_nodes"/>
+    </toolspecific>
+  </net>
+</pnml>

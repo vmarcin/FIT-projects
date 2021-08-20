@@ -1,0 +1,27 @@
+Projekt: Rubic's Cube Solver
+Autor:   xmarci10
+
+Implementacia:
+    Program riesi rubikovu kocku, pomocou prehladavania stavoveho priestoru, kde sa postupne skusaju 
+    mozne rotacie vsetkych stran (up, down, front, back, left, right) o 90 stupnov, najprv v smere a 
+    potom proti smeru hodinovych ruciciek, az kym nieje najdene spravne riesenie. Postupne su tahy 
+    veduce k vyrieseniu kocky ukladane do listu a po najdeni riesienia sa tento list pouzije na ziskanie
+    pozadovaneho vystupu.
+
+Testy:
+    Na otestovanie projektu je mozne pouzit prilozene testy. Nazov kazdeho suboru hovori o tom kolko
+    tahov je potrebnych na vyriesenie kocky popisanej v tomto subore. Pre odmeranie casu bola pouzita
+    utilita time a uvedeny je cas 'real'.
+
+Priklad spustenia:
+    $ make
+    $ ./flp20-log < test/2moves.in
+
+Casy potrebne na vyriesenie kociek v prilozenych testoch:
+    test/1move.in   - 0,016s
+    test/2moves.in  - 0,019s 
+    test/3moves.in  - 0,021s
+    test/4moves.in  - 0,026s
+    test/5moves.in  - 0,270s
+    test/6moves.in  - 1,888s
+    test/7moves.in  - 36,628s

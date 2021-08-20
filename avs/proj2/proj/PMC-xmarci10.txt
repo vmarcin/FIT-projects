@@ -1,0 +1,157 @@
+Architektury Výpočetních Systémů (AVS 2019)
+Projekt č. 2 (PMC)
+Login: xmarci10
+
+Úloha 1: Paralelizace původního řešení
+===============================================================================
+
+1) Kterou ze smyček (viz zadání) je vhodnější paralelizovat a co způsobuje 
+   neefektivitu paralelizaci té druhé?
+    - V konečnom riešení som paralelizoval cyklus vo funkcii marchCubes. 
+    - Paralelizácia tohto cyklu vykazovala lepšie výsledky oproti paralelizácii 
+      cyklu vo funkcii evaluateFieldAt. 
+    - Dôvodom je väčší pomer užitočnej práce k režíjným nákladom.
+      Funkcia evaluateFieldAt sa volá vo funkcii buildCube pre každý vrchol kocky (8-krát).
+      To znamená že vždy by sa vytvorila paralelná oblasť (réžia), urobil sa pomerne
+      jedoduchý výpočet a následne sa rušila paralelnú oblasť (réžia). V konečnom
+      dôsledku sme tak dosiahli ešte horší výsledok ako pri sekvenčom riešení.
+    - Funkcia evaluateFieldAt je taktiež volaná z funkcie buildCube, ktorá je volaná
+      z marchCubes a podľa 'good practice' je vždy výhodnejšie paralelizovať 
+      najvrchnejší cyklus co je v našom prípade cyklus vo funkcii marchCubes.
+
+2) Jaké plánování (rozdělení práce mezi vlákna) jste zvolili a proč? 
+   Jaký vliv má velikost "chunk" při dynamickém plánování (8, 16, 32, 64)?
+    a.) - Zvolil som plánovanie dynamic, ktoré pri testovaní dosahovalo nepatrne 
+          lepšie výsledky oproti ďalším dvom spôsobom. 
+        - Kedže užitočná práca v každej iterácii trvá rozdielne dlho a rozloženie
+          záťaže nevieme dopredu určiť (nemožno prispôsobiť chunk size), nemá zmysel
+          používať statické plánovanie.
+        - Kvôli nerovnomernému rozloženiu záťaže (neviem dopredu povedať v ktorých 
+          kockách bude ležať vykresľovaný objekt) by pri guided plánovaní mohlo
+          taktiež dôjsť k nerovnomernému rozloženiu záťaže.
+        - A práve aj kvôli vyššie spomenutým dôvodom sme použili dynamic plánovanie.
+    b.) - Pri volbe dynamického plánovania som nezaznamenal žiadne výrazné zmeny
+          vo výkonosti so zmenou parametru chunk-size.
+        - Jemne lepšie výsledky som dostával pri chunk-size = 32 a túto hodnotu
+          som použil aj vo výslednej implementácii. 
+        - Aj keď hodnota chunk-size 64 by mal mať teoreticky nižšie réžijné náklady
+          rozloženie záťaže je hrubšie a tak by mohlo dôjsť k nerovnomernému
+          rozloženiu. 
+
+3) Jakým způsobem zajišťujete ukládání trojúhelníků z několika vláken současně?
+    - Použitím pragmy `omp critical` vo funkcii emitTriangle. Použitím tejto
+      pragmy zabezpečíme, že k zdieľanému vektoru mTriangles bude vždy pristupovať
+      iba jedno vlákno súčasne. (Alternatíva viz koniec dokumentu.)
+
+Úloha 2: Paralelní průchod stromem
+===============================================================================
+
+1) Stručně popište použití OpenMP tasků ve vašem řešení.
+   - Vo funkcii marchCubes bola vytvorená paralelná oblasť (omp parallel) v rámci
+     ktorej voláme novovytvorenú funkciu slúžiacu na octree dekomopzíciu. Táto 
+     funkcia je volaná len jedným z vlákien (omp single), ktoré sa vytvoria v 
+     paralelnej oblasti. Toto vlákno bude následne generovať tasky a ostatné vlákna
+     budú tieto tasky spracovávať. Samotné generovanie taskov sa nachádza až vo
+     funkcii octreeDecomposition, kde po zistení, že aktuálnou kockou prechádza 
+     hľadaný povrch túto kocku ďalej rozdelíme na 8 častí a pre každú rekurzívne 
+     voláme octreeDecompostion. Každé toto volanie tak predstavuje samostatný task.
+     Tým pádom každý z týchto taskov generuje ďalšie tasky až po gridSize=1. 
+
+2) Jakým způsobem jste realizovali sesbírání celkového počtu trojúhelníků?
+   - Keďže celkový počet trojuholníkov bude známy až po zanorení na poslednú 
+     úroveň, bola použitá synchronizácia taskov. Rodič ktorý tasky vygeneroval
+     bude čakať na svojich potomkov (omp taskwait). Každý potomok sa potom 
+     stane novým rodičom a taktiež bude čakať na svojich potomkov. Takýmto spôsobom
+     sa dostaneme až na listovú úroveň octree.
+   - Každý potomok zároveň atomicky aktualizuje (omp atomic update) hodnotu počtu 
+     trojuholníkov, ktorá je zdieľaná všetkými taskami (update musí byť atomický) 
+     a keďže rodič čaká na všetkých potomkov generujúci task na najvyššej úrovni
+     vráti celkový počet trojuholníkov.
+
+3) Jaký vliv má na vaše řešení tzv. "cut-off"? Je vhodné vytvářet nový 
+   task pro každou krychli na nejnižší úrovni?
+    a.) - Moj algoritmus sa bude zanorovať až kým dĺžka hrany nedosiahne hodnotu
+          1, čo predstavuje listovú úroveň octree. V prípade, že by sme obmedzili
+          hĺbku zanorenia na špecifikovanú hodnotu (cut-off), vo výsledku by sme
+          dostali menej kociek a to by malo za následok nesúvislosť povrchu 
+          hľadaného objektu. 
+    b.) - V mojom riešení sú tasky vytvárané  iba pri dekomponovaní kocky (teda
+          pri rekurzívnom volaní). V prípade že kocka má dĺžku hrany 1 rekurzia
+          sa zastaví a aktuálny task zavolá funkciu buildCube, ktorá kocku vytvorí.
+          Preto nieje nutné vytváranie nového tasku.
+
+4) Jakým způsobem zajišťujete ukládání trojúhelníků z několika vláken současně?
+   - Rovnakým spôsobom ako v predchádzajúcej úlohe loop (viz 1.3). 
+     (Alternatíva viz koniec dokumentu.) 
+
+Úloha 2: Grafy škálování obou řešení
+===============================================================================
+
+1) Stručně zhodnoťte efektivitu vytvořených řešení (na základě grafů škálování).
+   - Graf silného škálovania popisuje celkovú prácu výpočtu. Predpokladom je 
+     priamka so smernicou -0.5 (zdvojnásobením počtu vlákien sa čas výpočtu
+     skráti o polovicu).
+        a.) OpenMP Loop
+            - toto riešenie lepšie napĺňa spomínaný predpoklad ale iba v prípade
+              že inputSize >= 642. Pre ostatné veľkosti vstupov si môžme všimnúť,
+              že ak máme viac ako 8 vlákien doba výpočtu sa zvyšuje. To je spôsobené 
+              tým, že réžia na rozdistribuovanie úloh medzi jednotlivé vlákna a 
+              ich riadenie je v tomto prípade už náročnejšia ako samotný výpočet.
+              ('Máme veľa vlákien a málo práce').
+        b.) Octree
+            - riešenie s octree škáluje o niečo menej ako riešenie loop. 
+              Môžme si ale všimnúť, že v prípade dostatočne veľkého vstupu 
+              (inputSize > 160) toto riešenie škáluje skoro ideálne. Pre menšie
+              vstupy vidíme, že doba výpočtu opäť závisí od počtu vlákien. A ak
+              num_threads > 16 doba výpočtu sa zhorší. Dôvod podobný ako pri
+              OMP Loop. 
+   - Graf slabého škálovania popisuje konštantný čas výpočtu na jadro/vlákno. 
+     Predpoklad je, že chceme riešiť väčšie problémy na 'väčšom' stroji za rovnakú
+     výpočetnú dobu. Ideálna priamka so smernicou 0 (konštatná funkcia)a.
+        a.) OpenMP Loop
+            - Jednotlivé krivky grafu sú až na jedinú výnimku takmer konštantné
+              (dokonca klesajúce). To znamená, že v tomto prípade je doba výpočtu
+              minimálne konštatná ak zdvojnásobíme počet vstupov a zároveň vlákien.
+              Pri extrémne malých dátach inputSize=10 a počte vlákien > 16 je 
+              toto riešenie opäť neefektívne z dôvodu vysokej réžie. 
+        b.) Octree
+            - toto riešenie vôbec nespĺňa predpoklad, keďže pridaným vlákien sa
+              čas výpočtu vždy zhorší.
+     
+2) V jakém případě (v závislosti na počtu bodů ve vstupním souboru a velikosti 
+   mřížky) bude vaše řešení 1. úlohy neefektivní? (pokud takový případ existuje)
+   - V prípade zlého pomeru medzi obsahom povrchom zpracovávaného objektu a celkovým
+     objemom prehľadávaného priestoru. Loop implementácia bude zbytočne prehľadávať
+     úplne plné/prázdne kocky, čo sa bude zhoršovať so zvyšujúcou sa veľkosťou 
+     mriežky.
+   - Počet bodov bude mať vždy negatívny vplyv na škálovanie keďže vytvorené riešenie
+     pralelizuje iba počet súčasne zostavovaných kociek, ale samotný výpočet už nie.
+     Tým pádom bude riešenie škálovať s nárastajúcou veľkosťou mriežky ale nie s 
+     narastajúcim počtom bodov. 
+
+3) Je (nebo není) stromový algoritmus efektivnější z pohledu slabého škálování 
+   vzhledem ke vstupu?
+   - Podľa výsledného grafu slabého škálovania (input_scaling_weak.png) to vyzerá,
+     že stromový algoritmus nieje efektívnejší oproti loop implementácii. Loop
+     implementácia má takmer dokonalé slabé škálovanie (so zvyšujúcim počtom
+     vlákien sa čas výpočtu takmer nezvyšuje). Oproti tomu stromový algoritmus
+     škáluje pri malom vstupe zle (so zvyšujúcim počtom vlákien čas narastá).
+
+
+Nahradenie kritickej sekcie vhodnou dátovou štruktúrou:
+=======================================================
+ - pri ukladaní trojuholníkov z viacerých vlákien by sme sa chceli vyhnúť čakaniu
+   pri prístupe do vektoru, ktorý je spoločný pre všetky vlákna
+ - varianta, ktorá mi prišla na um a odstránila nutnosť kritickej sekcie je 
+   nahradenie vektora vhodnejšou dátovou štruktúrou a to konkrétne Hash mapou.
+ - v tejto mape by kľúče predstavovali čísla vlákien (id) a hodnota by bol vektor
+   trojuholníkov uložených konkrétnym vláknom. Pri ukladaní by tak každé vlákno
+   zapisovalo do vlastného vektora a kritická sekcia by tak nebola nutná.
+ - nevýhou tohto riešenia je samozrejme nutnosť na záver spojiť všetky vektory
+   do jedného.
+ - túto variantu som testoval no oproti aktuálnemu riešeniu (omp critical) 
+   nepriniesla žiadne zlepšenie v prípade, že počet vlákien bol 16. Keď som však
+   počet vlákien zvýšil znamenalo to viac prístupov do kritickej sekcie a tým pádom
+   aj viac čakania. Právu tu sa potom prejavila výhoda navrhnutého riešenia.
+ - pri malom počte vlákien sa teda navrhované riešenie neoplatí
+   

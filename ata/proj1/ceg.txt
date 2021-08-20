@@ -1,0 +1,35 @@
+Causes:
+1: Požiadavka na presun materiálu
+2: Náklad do minúty od vytvorenia požiadavky
+3: Náklad po minute ale do dvoch minut od vytvorenia požiadavky
+4: Vozík obsahuje prioritný materiál
+5: Vozík obsahuje neprioritný materiál
+6: Vozík môže prijať náklad (voľný slot + vozík unesie náklad)
+
+Effects:
+80: Materiál v požiadavke sa stáva prioritným
+81: Vozík v režime iba_vykladka
+82: Vozík v normálnom režime
+83: Vozík vyloží materiál
+84: Vozík naloží materiál
+XX: Vyvolá sa výnimka X1
+
+Rules:
+76 = !2
+77 = !4
+78 = !3
+79 =  2 || 3
+80 = 76 && 1
+81 =  3 || 4
+82 = 77 
+83 =  4 ||  5 || 2 || 3
+84 = 79 && 77
+XX =  1 && 76 && 78             
+
+Constraints:
+E: 2, 3, 4
+2->1
+3->1
+2->6
+3->6
+81 masks 82

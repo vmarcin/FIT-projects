@@ -1,0 +1,25 @@
+// continuous time Markov chains
+ctmc
+
+const int population = 100;
+
+// proportionality rate of infection [0.001; 0.011]
+const double ki; 
+// proportionality rate of recovery [0.01; 0.11]
+const double kr; 
+
+// transition rates according to Mass action kinetics
+formula infection_rate = healthy * sick * ki;
+formula recovery_rate = sick * kr;
+
+module cov20
+   healthy: [0..population] init 95;
+   sick: [0..population] init 5;
+   healed: [0..population] init 0;
+
+   // infection
+   [] (healthy > 0) & (sick > 0) & (sick < population) -> infection_rate: (healthy'= healthy - 1) & (sick' = sick + 1);
+   // recovery
+   [] (sick > 0) & (healed < population) -> recovery_rate: (sick' = sick - 1) & (healed' = healed + 1);
+endmodule
+

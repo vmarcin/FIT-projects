@@ -1,0 +1,471 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="335.0" prefWidth="406.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="upa.controller.InfoPane">
+   <children>
+      <Accordion fx:id="accordionInfoPane" layoutX="1.0" layoutY="2.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="333.0" prefWidth="404.0">
+        <panes>
+          <TitledPane fx:id="titledImageOperationsPane" animated="false" text="Image Operations">
+              <content>
+                  <AnchorPane fx:id="imageOperationsPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" >
+                      <children>
+                          <Label layoutX="180.0" layoutY="20.0" text="Gamma" />
+                          <Label layoutX="50.0" layoutY="40.0" text="R" />
+                          <Label layoutX="50.0" layoutY="60.0" text="G" />
+                          <Label layoutX="50.0" layoutY="80.0" text="B" />
+
+                          <Label layoutX="178.0" layoutY="130.0" text="Contrast" />
+                          <Label layoutX="50.0" layoutY="150.0" text="R" />
+                          <Label layoutX="50.0" layoutY="170.0" text="G" />
+                          <Label layoutX="50.0" layoutY="190.0" text="B" />
+
+                          <Button fx:id="gamaApplyButton" layoutX="320.0" layoutY="60.0" mnemonicParsing="false" onAction="#gammaApplyClick" text="Apply" />
+                          <Button fx:id="contrastApplyButton" layoutX="320.0" layoutY="170.0" mnemonicParsing="false" onAction="#contrastApplyClick" text="Apply" />
+                          <Button fx:id="cancelButton" layoutX="333.0" layoutY="5.0" mnemonicParsing="false" onAction="#cancelButtonClick" text="Cancel" />
+
+                          <Slider fx:id="gammaR" layoutX="120.0" layoutY="40.0" majorTickUnit="100.0" max="100.0" min="1.0" minorTickCount="10" prefHeight="16.0" prefWidth="170.0" showTickMarks="true" snapToTicks="true" value="0.0" />
+                          <Slider fx:id="gammaG" layoutX="120.0" layoutY="60.0" majorTickUnit="100.0" max="100.0" min="1.0" minorTickCount="10" prefHeight="16.0" prefWidth="170.0" showTickMarks="true" snapToTicks="true" value="0.0" />
+                          <Slider fx:id="gammaB" layoutX="120.0" layoutY="80.0" majorTickUnit="100.0" max="100.0" min="1.0" minorTickCount="10" prefHeight="16.0" prefWidth="170.0" showTickMarks="true" snapToTicks="true" value="0.0" />
+
+                          <Slider fx:id="contrastR" layoutX="120.0" layoutY="150.0" majorTickUnit="100.0" max="100.0" min="1.0" minorTickCount="10" prefHeight="16.0" prefWidth="170.0" showTickMarks="true" snapToTicks="true" value="0.0" />
+                          <Slider fx:id="contrastG" layoutX="120.0" layoutY="170.0" majorTickUnit="100.0" max="100.0" min="1.0" minorTickCount="10" prefHeight="16.0" prefWidth="170.0" showTickMarks="true" snapToTicks="true" value="0.0" />
+                          <Slider fx:id="contrastB" layoutX="120.0" layoutY="190.0" majorTickUnit="100.0" max="100.0" min="1.0" minorTickCount="10" prefHeight="16.0" prefWidth="170.0" showTickMarks="true" snapToTicks="true" value="0.0" />
+                      </children>
+                  </AnchorPane>
+              </content>
+          </TitledPane>
+          <TitledPane fx:id="titledBasicInfoPane" animated="false" text="Basic Info">
+            <content>
+              <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="257.0" prefWidth="402.0">
+                     <children>
+                        <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="257.0" prefWidth="402.0">
+                           <children>
+                              <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="402.0">
+                                 <children>
+                                    <Label prefHeight="16.0" prefWidth="62.0" text="Type:">
+                                       <HBox.margin>
+                                          <Insets left="-20.0" />
+                                       </HBox.margin>
+                                       <font>
+                                          <Font name="System Bold" size="13.0" />
+                                       </font>
+                                    </Label>
+                                    <Region prefHeight="30.0" prefWidth="20.0" />
+                                    <Label fx:id="bitype" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="15.0" prefWidth="179.0" text="-" />
+                                    <Region prefHeight="30.0" prefWidth="68.0" />
+                                    <Button fx:id="bisave" mnemonicParsing="false" onAction="#onClick" text="Update" />
+                                 </children>
+                                 <padding>
+                                    <Insets left="26.0" />
+                                 </padding>
+                              </HBox>
+                              <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="223.0" prefWidth="402.0">
+                                <columnConstraints>
+                                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="195.0" minWidth="10.0" prefWidth="90.0" />
+                                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="312.0" minWidth="10.0" prefWidth="312.0" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                </rowConstraints>
+                                 <children>
+                                    <Label text="Name:">
+                                       <GridPane.margin>
+                                          <Insets left="5.0" />
+                                       </GridPane.margin>
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font>
+                                       <textFill>
+                                          <LinearGradient endX="1.0" endY="1.0">
+                                             <stops>
+                                                <Stop color="#419042" />
+                                                <Stop color="#3091a4" offset="1.0" />
+                                             </stops>
+                                          </LinearGradient>
+                                       </textFill>
+                                    </Label>
+                                    <Label text="Description:" GridPane.rowIndex="1">
+                                       <GridPane.margin>
+                                          <Insets left="5.0" />
+                                       </GridPane.margin>
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font>
+                                       <textFill>
+                                          <LinearGradient endX="1.0" endY="1.0">
+                                             <stops>
+                                                <Stop color="#419042" />
+                                                <Stop color="#3091a4" offset="1.0" />
+                                             </stops>
+                                          </LinearGradient>
+                                       </textFill>
+                                    </Label>
+                                    <Label fx:id="labeladdr" text="Address:" GridPane.rowIndex="2">
+                                       <GridPane.margin>
+                                          <Insets left="5.0" />
+                                       </GridPane.margin>
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font>
+                                       <textFill>
+                                          <LinearGradient endX="1.0" endY="1.0">
+                                             <stops>
+                                                <Stop color="#419042" />
+                                                <Stop color="#3091a4" offset="1.0" />
+                                             </stops>
+                                          </LinearGradient>
+                                       </textFill>
+                                    </Label>
+                                    <Label fx:id="labelprice" text="Price:" GridPane.rowIndex="3">
+                                       <GridPane.margin>
+                                          <Insets left="5.0" />
+                                       </GridPane.margin>
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font>
+                                       <textFill>
+                                          <LinearGradient endX="1.0" endY="1.0">
+                                             <stops>
+                                                <Stop color="#419042" />
+                                                <Stop color="#3091a4" offset="1.0" />
+                                             </stops>
+                                          </LinearGradient>
+                                       </textFill>
+                                    </Label>
+                                    <Label fx:id="labeloi" text="Owner Info:" GridPane.rowIndex="4">
+                                       <GridPane.margin>
+                                          <Insets left="5.0" />
+                                       </GridPane.margin>
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font>
+                                       <textFill>
+                                          <LinearGradient endX="1.0" endY="1.0">
+                                             <stops>
+                                                <Stop color="#419042" />
+                                                <Stop color="#3091a4" offset="1.0" />
+                                             </stops>
+                                          </LinearGradient>
+                                       </textFill>
+                                    </Label>
+                                    <TextArea fx:id="biaddress" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="28.0" prefWidth="312.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                    <TextArea fx:id="bidesc" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="28.0" prefWidth="312.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <TextArea fx:id="biname" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="28.0" prefWidth="312.0" GridPane.columnIndex="1" />
+                                    <TextArea fx:id="biprice" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="28.0" prefWidth="312.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                    <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                                       <children>
+                                          <Label fx:id="labeloname" text="Name:" />
+                                          <Region prefHeight="32.0" prefWidth="40.0" />
+                                          <TextArea fx:id="bioname" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="28.0" prefWidth="228.0" />
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                                       <children>
+                                          <Label fx:id="labelemail" text="Email:" />
+                                          <Region prefHeight="32.0" prefWidth="44.0" />
+                                          <TextArea fx:id="biemail" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="28.0" prefWidth="228.0" />
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="6">
+                                       <children>
+                                          <Label fx:id="labeltelnumber" text="Tel. Number:" />
+                                          <TextArea fx:id="bitelnumber" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="28.0" prefWidth="226.0" />
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </GridPane>
+                           </children>
+                        </VBox>
+                     </children></AnchorPane>
+            </content>
+          </TitledPane>
+          <TitledPane fx:id="titledSpatialInfoPane" animated="false" text="Spatial Info">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="257.0" prefWidth="402.0">
+                           <children>
+                              <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="402.0">
+                                 <children>
+                                    <Label prefHeight="16.0" prefWidth="62.0" text="Area:">
+                                       <font>
+                                          <Font name="System Bold" size="13.0" />
+                                       </font>
+                                       <HBox.margin>
+                                          <Insets left="-20.0" />
+                                       </HBox.margin>
+                                    </Label>
+                                    <Region prefHeight="30.0" prefWidth="33.0" />
+                                    <Label fx:id="areaLabel" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="15.0" prefWidth="178.0" text="-" />
+                                    <Region prefHeight="30.0" prefWidth="20.0" />
+                                    <Label fx:id="bitype12" prefHeight="15.0" prefWidth="106.0" text="m^2">
+                                       <font>
+                                          <Font name="System Bold" size="13.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                                 <padding>
+                                    <Insets left="26.0" />
+                                 </padding>
+                              </HBox>
+                              <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="402.0">
+                                 <children>
+                                    <Label prefHeight="16.0" prefWidth="84.0" text="Perimeter:">
+                                       <font>
+                                          <Font name="System Bold" size="13.0" />
+                                       </font>
+                                       <HBox.margin>
+                                          <Insets left="-20.0" />
+                                       </HBox.margin>
+                                    </Label>
+                                    <Region prefHeight="30.0" prefWidth="10.0" />
+                                    <Label fx:id="perimeterLabel" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="15.0" prefWidth="139.0" text="-" />
+                                    <Region prefHeight="30.0" prefWidth="59.0" />
+                                    <Label fx:id="bitype121" prefHeight="15.0" prefWidth="106.0" text="m">
+                                       <font>
+                                          <Font name="System Bold" size="13.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                                 <padding>
+                                    <Insets left="26.0" />
+                                 </padding>
+                              </HBox>
+                              <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="402.0">
+                                 <children>
+                                    <Label prefHeight="16.0" prefWidth="84.0" text="N nearest:">
+                                       <font>
+                                          <Font name="System Bold" size="13.0" />
+                                       </font>
+                                       <HBox.margin>
+                                          <Insets left="-20.0" />
+                                       </HBox.margin>
+                                    </Label>
+                                    <Region prefHeight="30.0" prefWidth="256.0" />
+                                    <Button fx:id="findButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#onClick" prefHeight="25.0" prefWidth="66.0" text="Find" />
+                                 </children>
+                                 <padding>
+                                    <Insets left="26.0" />
+                                 </padding>
+                              </HBox>
+                              <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="161.0" prefWidth="402.0">
+                                 <children>
+                                    <Label fx:id="labeladdr1" text="schools:" GridPane.halignment="RIGHT">
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font>
+                                       <textFill>
+                                          <LinearGradient endX="1.0" endY="1.0">
+                                             <stops>
+                                                <Stop color="#419042" />
+                                                <Stop color="#3091a4" offset="1.0" />
+                                             </stops>
+                                          </LinearGradient>
+                                       </textFill>
+                                       <GridPane.margin>
+                                          <Insets right="5.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <Label fx:id="labelprice1" text="shops:" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font>
+                                       <textFill>
+                                          <LinearGradient endX="1.0" endY="1.0">
+                                             <stops>
+                                                <Stop color="#419042" />
+                                                <Stop color="#3091a4" offset="1.0" />
+                                             </stops>
+                                          </LinearGradient>
+                                       </textFill>
+                                       <GridPane.margin>
+                                          <Insets right="5.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <Label fx:id="labeloi1" text="hospitals:" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font>
+                                       <textFill>
+                                          <LinearGradient endX="1.0" endY="1.0">
+                                             <stops>
+                                                <Stop color="#419042" />
+                                                <Stop color="#3091a4" offset="1.0" />
+                                             </stops>
+                                          </LinearGradient>
+                                       </textFill>
+                                       <GridPane.margin>
+                                          <Insets right="5.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <Label fx:id="labeloi11" text="parks:" GridPane.halignment="RIGHT" GridPane.rowIndex="3">
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font>
+                                       <textFill>
+                                          <LinearGradient endX="1.0" endY="1.0">
+                                             <stops>
+                                                <Stop color="#419042" />
+                                                <Stop color="#3091a4" offset="1.0" />
+                                             </stops>
+                                          </LinearGradient>
+                                       </textFill>
+                                       <GridPane.margin>
+                                          <Insets right="5.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <Label fx:id="labeloi111" text="tram stops:" GridPane.halignment="RIGHT" GridPane.rowIndex="4">
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font>
+                                       <textFill>
+                                          <LinearGradient endX="1.0" endY="1.0">
+                                             <stops>
+                                                <Stop color="#419042" />
+                                                <Stop color="#3091a4" offset="1.0" />
+                                             </stops>
+                                          </LinearGradient>
+                                       </textFill>
+                                       <GridPane.margin>
+                                          <Insets right="5.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1">
+                                       <children>
+                                          <TextArea fx:id="schoolsInput" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="28.0" prefWidth="35.0" text="1" />
+                                          <CheckBox fx:id="schoolsCheck" mnemonicParsing="false">
+                                             <HBox.margin>
+                                                <Insets left="10.0" />
+                                             </HBox.margin>
+                                          </CheckBox>
+                                          <Label prefHeight="15.0" prefWidth="67.0" text="Nearest:">
+                                             <HBox.margin>
+                                                <Insets left="40.0" />
+                                             </HBox.margin></Label>
+                                          <Label fx:id="schoolsResult" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="15.0" prefWidth="110.0" text="-" />
+                                          <Label text="m">
+                                             <font>
+                                                <Font name="System Bold" size="13.0" />
+                                             </font></Label>
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER_LEFT" layoutX="100.0" layoutY="10.0" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                       <children>
+                                          <TextArea fx:id="shopsInput" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="28.0" prefWidth="35.0" text="1" />
+                                          <CheckBox fx:id="shopsCheck" mnemonicParsing="false">
+                                             <HBox.margin>
+                                                <Insets left="10.0" />
+                                             </HBox.margin>
+                                          </CheckBox>
+                                          <Label prefHeight="15.0" prefWidth="67.0" text="Nearest:">
+                                             <HBox.margin>
+                                                <Insets left="40.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                          <Label fx:id="shopsResult" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="15.0" prefWidth="110.0" text="-" />
+                                          <Label text="m">
+                                             <font>
+                                                <Font name="System Bold" size="13.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                                       <children>
+                                          <TextArea fx:id="hospitalsInput" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="28.0" prefWidth="35.0" text="1" />
+                                          <CheckBox fx:id="hospitalsCheck" mnemonicParsing="false">
+                                             <HBox.margin>
+                                                <Insets left="10.0" />
+                                             </HBox.margin>
+                                          </CheckBox>
+                                          <Label prefHeight="15.0" prefWidth="67.0" text="Nearest:">
+                                             <HBox.margin>
+                                                <Insets left="40.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                          <Label fx:id="hospitalsResult" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="15.0" prefWidth="110.0" text="-" />
+                                          <Label text="m">
+                                             <font>
+                                                <Font name="System Bold" size="13.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                                       <children>
+                                          <TextArea fx:id="parksInput" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="28.0" prefWidth="35.0" text="1" />
+                                          <CheckBox fx:id="parksCheck" mnemonicParsing="false">
+                                             <HBox.margin>
+                                                <Insets left="10.0" />
+                                             </HBox.margin>
+                                          </CheckBox>
+                                          <Label prefHeight="15.0" prefWidth="67.0" text="Nearest:">
+                                             <HBox.margin>
+                                                <Insets left="40.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                          <Label fx:id="parksResult" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="15.0" prefWidth="110.0" text="-" />
+                                          <Label text="m">
+                                             <font>
+                                                <Font name="System Bold" size="13.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                                       <children>
+                                          <TextArea fx:id="tramStopsInput" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="28.0" prefWidth="35.0" text="1" />
+                                          <CheckBox fx:id="tramStopsCheck" mnemonicParsing="false">
+                                             <HBox.margin>
+                                                <Insets left="10.0" />
+                                             </HBox.margin>
+                                          </CheckBox>
+                                          <Label prefHeight="15.0" prefWidth="67.0" text="Nearest:">
+                                             <HBox.margin>
+                                                <Insets left="40.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                          <Label fx:id="tramStopsResult" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="15.0" prefWidth="110.0" text="-" />
+                                          <Label text="m">
+                                             <font>
+                                                <Font name="System Bold" size="13.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </HBox>
+                                 </children>
+                                 <columnConstraints>
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="195.0" minWidth="10.0" prefWidth="90.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="312.0" minWidth="10.0" prefWidth="312.0" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                 </rowConstraints>
+                              </GridPane>
+                           </children>
+                        </VBox>
+                     </children></AnchorPane>
+            </content>
+          </TitledPane>
+        </panes>
+      </Accordion>
+   </children>
+</AnchorPane>

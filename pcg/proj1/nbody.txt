@@ -1,0 +1,358 @@
+
+Paralelní programování na GPU (PCG 2020)
+Projekt c. 1 (cuda)
+Login: xmarci10
+
+Z dovodu nedostupnosti Anselmu boli experimenty vykonane aj na grafickej karte v mojom notebooku.
+Jedna sa o kartu Nvidia GeForce GTX 1050ti (detailnejsie informacie mozno najst na konci tohto suboru).
+Vysledky tychto merani su uvedene az za vysledkami ziskanymi na Anselme.
+
+-------------------------------------------------------------------------------------------------------------------------------------------
+ANSELM
+-------------------------------------------------------------------------------------------------------------------------------------------
+
+Krok 0: základní implementace
+=============================
+Velikost dat    	čas [s]
+    1024 			 0.818723
+2 * 1024 			 1.61706
+3 * 1024 			 2.41019
+4 * 1024 			 3.21029
+5 * 1024 			 4.00294
+6 * 1024 			 4.79617
+7 * 1024 			 5.60065
+8 * 1024 			 6.39971
+9 * 1024 			 7.20554
+10 * 1024 			 7.99424
+11 * 1024 			 8.78976
+12 * 1024 			 9.58773
+13 * 1024 			 10.3936
+------------------------------------------skok
+14 * 1024 			 21.8495
+15 * 1024 			 23.427
+16 * 1024 			 25.0649
+17 * 1024 			 26.6693
+18 * 1024 			 28.1552
+19 * 1024 			 29.9328
+20 * 1024 			 31.4736
+21 * 1024 			 33.1775
+22 * 1024 			 34.7263
+23 * 1024 			 36.5464
+24 * 1024 			 38.1694
+25 * 1024 			 39.8497
+26 * 1024 			 41.4144
+------------------------------------------skok
+27 * 1024 			 63.2058
+28 * 1024 			 65.5004
+29 * 1024 			 67.9751
+30 * 1024 			 70.5187
+
+Vyskytla se nějaká anomálie v datech -> ÁNO
+Pokud ano, vysvětlete:
+
+    Kernel calculate_gravitation_velocity používa pri výpočte 38 registrov na vlákno.
+    Pri veľkosti bloku 1024 vlákien to znamená 38912 registrov na blok. A keďže limit
+    na použitej grafickej karte je 65536 registrov na blok, jeden
+    SM procesor dokáže naraz spracovávať iba jeden blok. 
+    Podobne je to aj s kernelom calculate_collision_velocity, kde jedno vlákno používa
+    dokonca 44 registrov.
+
+    Použitá grafická karta ma k dispozícii 13 SM procesorov a teda v našom prípade dokáže 
+    naraz vykonávať iba 13 blokov. Ak sú vstupné dáta väčšie ako 13*1024 potom sa už výpočet 
+    začína serializovať (a s každým násobkom 13 sa pridá ďaľšia úroveň). O tom svedčia
+    aj namerané údaje viz tabuľka hore. Všimnite si skokový nárast času pri násobkoch 13.
+
+Krok 1: optimalizace kódu
+=====================
+Došlo ke zrychlení? ( N = 30720, blockDim.x = 1024, steps = 500)
+    ÁNO. Výpočet sa zrýchlil o cca 33 %.
+
+Popište dva hlavní důvody:
+    1.) Redukcia počtu prístupov (load/store) do globálnej pamäte. V kroku 0
+        každý použitý kernel musel načítať dáta potrebné k výpočtu a následne
+        po vykonaní výpočtu musel uložiť tmp výsledky ktoré slúžili ako vstup
+        pre ďalší kernel.
+        Keďže v kroku 1 sme tieto kernly spojili dokopy načítanie dát bolo potrebného
+        iba raz pred začiatkom výpočtu a rovnako zápis sa taktiež vykonal iba raz
+        a to až po dokončení výpočtu. 
+    2.) Redukcia počtu floating-point operácií. V kroku 0 sa v kerneli calculate_collision_velocity
+        počítajú hodnoty už spočítané v kerneli calculate_gravitation_velocity.
+        Spojením týchto kernelov sme teda eliminovali duplicitné výpočty a to malo
+        za následok zvýšenie celkového výkonu. 
+
+Porovnejte metriky s předchozím krokem: ( N = 30720, blockDim.x = 1024 )
+    Pozorovane metriky: gld_transactions, gst_transactions, flop_count_sp
+
+    Step1:  gld_transactions    117.971.520
+    Step0:  gld_transactions    206.490.240 
+    
+    Step1:  gst_transactions    5.760
+    Step0:  gst_transactions    11.520
+
+    Step1:  flop_count_sp       3.8693e+10
+    Step0:  flop_count_sp       5.2848e+10
+
+    (* Detailed *)
+    Step0:  calculate_collision_velocity
+            --------------------------------
+            gld_transactions    88.513.920      - eliminovane v kroku 1
+            gst_transactions    2.880           - eliminovane v kroku 1
+            flop_count_sp       1.4156e+10      - vela z toho eliminovane v kroku 1 (nieco tam ostane)
+
+            calculate_gravitation_velocity
+            ------------------------------
+            gld_transactions    117.967.680
+            gst_transactions    2.880           - eliminovane v kroku 1
+            flop_count_sp       3.8692e+10
+
+            update_particle 
+            -------------------------------    
+            gld_transactions    8.640           - eliminovane v kroku 1
+            gst_transactions    5.760
+            flop_count_sp       276.480
+
+Krok 2: sdílená paměť
+=====================
+Došlo ke zrychlení? ( N = 30720, blockDim.x = 1024, steps = 500)
+    ÁNO. Výpočet sa zrýchlil o cca 28 %.
+
+Zdůvodněte:
+    Dovod zrychlenia spocival v redukcii poctu pristupov do globalnej pamate. A aj ked k pristupu
+    do globalnej pamate doslo bol 100% coalesced (susedne vlakna pristupuju do susednych lokacii).
+    Zvysenie vykonu taktiez ovplyvnilo aj znizenie casu cakania na data (latencia zdielanej pamate
+    je ovela nizsia ako latencia globalnej pamate).
+
+Porovnejte metriky s předchozím krokem:
+    Pozorovane metriky: shared_load_transactions, shared_store_transactions, stall_memory_dependency, 
+                        gld_transactions, gld_efficiency
+
+    Step2:  shared_load_transactions      117.964.800
+    Step1:  shared_load_transactions                0   - ziadna zdielana pamat
+
+    Step2:  shared_store_transactions         300.123
+    Step1:  shared_store_transactions               0   - ziadna zdielana pamat
+
+    Step2:  stall_memory_dependency              0.00%  - nacitanie dat zo zdielanej pamate mensia latencia
+    Step1:  stall_memory_dependency             12.74%      
+
+    Step2:  gld_transactions                  208.320   - gld_efficiency    100%
+    Step1:  gld_transactions              117.971.520   - gld_efficiency    12.52%
+
+Krok 5: analýza výkonu 
+======================
+N        čas CPU [s]    čas GPU [s]    propustnost paměti [MB/s]      výkon [MFLOPS]      zrychlení [-]         thr_blc
+128          0,454        0,087274          121,0082             	  4634,5990           5,2020              128
+256          1,816        0,125385          173,1471            	 11661,7458          14,4833              256
+512          7,316        0,218637          243,5686            	 26030,3608          33,4618          	  512
+1024        29,149        0,408678          413,2252                     55308,4041          71,3251              512               
+2048       118,256        0,788594          758,4376                    114436,7824         149,9580              512                
+4096       465,985        1,551931         1398,6001                    232479,4903         300,2614              512
+8192      1873,258        3,084290         2693,2068                    467839,6908         607,3546              512
+16384    ~7493,032        6,727556         6054,1785                    857894,8836       ~1113,7821              256
+32768   ~29972,128       29,709385         8513,3722                    777057,1956       ~1008,8437              512
+65536  ~119888,512      118,180566        15739,6923                    781348,5608       ~1014,4520              256
+131072 ~479554,048      417,353861        24828,3545                    785005,6140       ~1149,0346              512    
+
+Od jakého počtu částic se vyplatí počítat na grafické kartě?
+
+===================================
+V nasom pripade, sa oplati pouzit graficku kartu uz od 256 hodnot, nakolko je zrychlenie vyssie ako 
+paralelna implemetacia na CPU (cca 10x rychlejsia ako sekvenca CPU implemetacia).
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Nvidia GeForce GTX 1050ti
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Krok 0: základní implementace
+=============================
+Velikost dat    	čas [s]
+    1024 			 0.353428
+2 * 1024 			 0.679876
+3 * 1024 			 1.07019
+4 * 1024 			 1.32103
+5 * 1024 			 1.64561
+---------------------------------------- skok
+6 * 1024 			 3.83169
+7 * 1024 			 4.39519
+8 * 1024 			 4.95322
+9 * 1024 			 5.72126
+10 * 1024 			 6.3259
+---------------------------------------- skok
+11 * 1024 			 10.1573
+12 * 1024 			 11.1549
+13 * 1024 			 12.0819
+14 * 1024 			 13.2506
+15 * 1024 			 14.2434
+---------------------------------------- skok
+16 * 1024 			 19.7698
+17 * 1024 			 21.1461
+18 * 1024 			 22.7163
+19 * 1024 			 24.752
+20 * 1024 			 26.4272
+---------------------------------------- skok
+21 * 1024 			 32.8695
+22 * 1024 			 34.9348
+23 * 1024 			 37.2475
+24 * 1024 			 39.6261
+25 * 1024 			 41.5064
+---------------------------------------- skok
+26 * 1024 			 50.6081
+27 * 1024 			 52.8066
+28 * 1024 			 53.6023
+29 * 1024 			 55.2334
+30 * 1024 			 56.2634
+
+Vyskytla se nějaká anomálie v datech -> ÁNO
+Pokud ano, vysvětlete:
+
+    Kernel calculate_gravitation_velocity používa pri výpočte 38 registrov na vlákno.
+    Pri veľkosti bloku 1024 vlákien to znamená 38912 registrov na blok. A keďže limit
+    na použitej grafickej karte je 65536 registrov na blok (viz koniec súboru), jeden
+    SM procesor dokáže naraz spracovávať iba jeden blok. 
+    Podobne je to aj s kernelom calculate_collision_velocity, kde jedno vlákno používa
+    dokonca 44 registrov.
+
+    Použitá grafická karta ma k dispozícii 5 SM procesorov a teda v našom prípade dokáže 
+    naraz vykonávať iba 5 blokov. Ak sú vstupné dáta väčšie ako 5*1024 potom sa už výpočet 
+    začína serializovať (a s každým násobkom päťky sa pridá ďaľšia úroveň). O tom svedčia
+    aj namerané údaje viz tabuľka hore. Všimnite si skokový nárast času pri násobkoch päťky.
+
+Krok 1: optimalizace kódu
+=====================
+Došlo ke zrychlení? ( N = 30720, blockDim.x = 1024, steps = 500)
+    ÁNO. Výpočet sa zrýchlil o cca 36 %.
+
+Popište dva hlavní důvody:
+    1.) Redukcia počtu prístupov (load/store) do globálnej pamäte. V kroku 0
+        každý použitý kernel musel načítať dáta potrebné k výpočtu a následne
+        po vykonaní výpočtu musel uložiť tmp výsledky ktoré slúžili ako vstup
+        pre ďalší kernel.
+        Keďže v kroku 1 sme tieto kernly spojili dokopy načítanie dát bolo potrebného
+        iba raz pred začiatkom výpočtu a rovnako zápis sa taktiež vykonal iba raz
+        a to až po dokončení výpočtu. 
+    2.) Redukcia počtu floating-point operácií. V kroku 0 sa v kerneli calculate_collision_velocity
+        počítajú hodnoty už spočítané v kerneli calculate_gravitation_velocity.
+        Spojením týchto kernelov sme teda eliminovali duplicitné výpočty a to malo
+        za následok zvýšenie celkového výkonu. 
+
+Porovnejte metriky s předchozím krokem: ( N = 30720, blockDim.x = 1024 )
+    Pozorovane metriky: gld_transactions, gst_transactions, flop_count_sp
+
+    Step1:  gld_transactions    1.887.544.322
+    Step0:  gld_transactions    3.303.475.206
+    
+    Step1:  gst_transactions    23.040
+    Step0:  gst_transactions    46.080
+
+    Step1:  flop_count_sp       3.7749e+10
+    Step0:  flop_count_sp       5.0017e+10
+
+    (* Detailed *)
+    Step0:  calculate_collision_velocity
+            --------------------------------
+            gld_transactions    1.415.854.082   - eliminovane v kroku 1
+            gst_transactions    11.520          - eliminovane v kroku 1
+            flop_count_sp       1.2268e+10      - vela z toho eliminovane v kroku 1 (nieco tam ostane)
+
+            calculate_gravitation_velocity
+            ------------------------------
+            gld_transactions    1.887.482.882
+            gst_transactions    11.520          - eliminovane v kroku 1
+            flop_count_sp       3.7749e+10
+
+            update_particle 
+            -------------------------------    
+            gld_transactions    138.242         - eliminovane v korku 1
+            gst_transactions    23.040
+            flop_count_sp       276.480
+
+Krok 2: sdílená paměť
+=====================
+Došlo ke zrychlení? ( N = 30720, blockDim.x = 1024, steps = 500)
+    ÁNO. Výpočet sa zrýchlil o cca 8 %.
+
+Zdůvodněte:
+    Dovod zrychlenia spocival v redukcii poctu pristupov do globalnej pamate. A aj ked k pristupu
+    do globalnej pamate doslo bol 100% coalesced (susedne vlakna pristupuju do susednych lokacii).
+    Zvysenie vykonu taktiez ovplyvnilo aj znizenie casu cakania na data (latencia zdielanej pamate
+    je ovela nizsia ako latencia globalnej pamate).
+
+Porovnejte metriky s předchozím krokem:
+    Pozorovane metriky: shared_load_transactions, shared_store_transactions, stall_memory_dependency, 
+                        gld_transactions, gld_efficiency
+
+    Step2:  shared_load_transactions      117.964.800
+    Step1:  shared_load_transactions                0   - ziadna zdielana pamat
+
+    Step2:  shared_store_transactions         201.600
+    Step1:  shared_store_transactions               0   - ziadna zdielana pamat
+
+    Step2:  stall_memory_dependency              0.07%  - nacitanie dat zo zdielanej pamate mensia latencia
+    Step1:  stall_memory_dependency             38.45%      
+
+    Step2:  gld_transactions                3.379.410   - gld_efficiency    100%%
+    Step1:  gld_transactions            1.887.544.322   - gld_efficiency    12.52%
+
+Krok 5: analýza výkonu 
+======================
+N        čas CPU [s]    čas GPU [s]    propustnost paměti [MB/s]    výkon [MFLOPS]      zrychlení [-]            thr_blc
+128          0,454         0,032368            286,68                    12243,2              14,02               128
+256          1,815         0,049573            376,45                    28835,051            36,63               256
+512          7,316         0,073138            723,088                   76022,423           100,025              256
+1024        29,148         0,129493           1176,003                  170503,73            225,09               256               
+2048       118,256         0,253747           1805,678                  347381,47            466,039              512                
+4096       465,985         0,617804           5245,536                  570413,141           754,26               128
+819       1873,258         2,497011          15543,12                   564434,376           750,20               32
+16384    ~7493,032         9,682553           9447,482                  582236,511          ~773,86               256
+32768   ~29972,128        35,176448          15084,796                  641022,408          ~852,05               512
+65536  ~119888,512       138,417186          25731,9447                 651618,615          ~866,13               256
+131072 ~479554,048       585,469366          38474,3451                 616224,402          ~819,09               256    
+
+Od jakého počtu částic se vyplatí počítat na grafické kartě?
+
+===================================
+V nasom pripade, sa oplati pouzit graficku kartu uz od 128 hodnot, nakolko je zrychlenie vyssie ako 
+paralelna implemetacia na CPU.
+
+
+Detected 1 CUDA Capable device(s)
+
+Device 0: "GeForce GTX 1050"
+  CUDA Driver Version / Runtime Version          11.1 / 10.1
+  Total amount of global memory:                 4042 MBytes (4238737408 bytes)
+  ( 5) Multiprocessors, (128) CUDA Cores/MP:     640 CUDA Cores
+  GPU Max Clock rate:                            1493 MHz (1.49 GHz)
+  Memory Clock rate:                             3504 Mhz
+  Memory Bus Width:                              128-bit
+  L2 Cache Size:                                 524288 bytes
+  Maximum Texture Dimension Size (x,y,z)         1D=(131072), 2D=(131072, 65536), 3D=(16384, 16384, 16384)
+  Maximum Layered 1D Texture Size, (num) layers  1D=(32768), 2048 layers
+  Maximum Layered 2D Texture Size, (num) layers  2D=(32768, 32768), 2048 layers
+  Total amount of constant memory:               65536 bytes
+  Total amount of shared memory per block:       49152 bytes
+  Total number of registers available per block: 65536
+  Warp size:                                     32
+  Maximum number of threads per multiprocessor:  2048
+  Maximum number of threads per block:           1024
+  Max dimension size of a thread block (x,y,z): (1024, 1024, 64)
+  Max dimension size of a grid size    (x,y,z): (2147483647, 65535, 65535)
+  Maximum memory pitch:                          2147483647 bytes
+  Texture alignment:                             512 bytes
+  Concurrent copy and kernel execution:          Yes with 2 copy engine(s)
+  Run time limit on kernels:                     Yes
+  Integrated GPU sharing Host Memory:            No
+  Support host page-locked memory mapping:       Yes
+  Alignment requirement for Surfaces:            Yes
+  Device has ECC support:                        Disabled
+  Device supports Unified Addressing (UVA):      Yes
+  Device supports Compute Preemption:            Yes
+  Supports Cooperative Kernel Launch:            Yes
+  Supports MultiDevice Co-op Kernel Launch:      Yes
+  Device PCI Domain ID / Bus ID / location ID:   0 / 1 / 0
+  Compute Mode:
+     < Default (multiple host threads can use ::cudaSetDevice() with device simultaneously) >
+
+deviceQuery, CUDA Driver = CUDART, CUDA Driver Version = 11.1, CUDA Runtime Version = 10.1, NumDevs = 1
+Result = PASS
+

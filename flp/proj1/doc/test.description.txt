@@ -1,0 +1,33 @@
+AUTHORS: 
+    Marcin Vladimir (xmarci10)
+    Stupinsky Simon (xstupi00)
+
+RUN:
+
+    $ make
+    $ cd test/
+    $ python3 test.py
+
+OUTPUT FORMAT:
+
+    Valid tests:
+    ******************************************************
+    [name of test] [command]                  [status]
+    [TEST 018]      ./plg-2-nka -i test18.in        OK
+    
+    ...
+    ******************************************************
+    Invalid tests:
+    ******************************************************
+    [error description]
+    plg-2-nka: [SYNTAX ERROR] Wrong input format!
+    CallStack (from HasCallStack):
+        error, called at src/ParseGrammar.hs:124:14 in main:ParseGrammar
+    
+    [name of test] [command]                              [status]
+    [TEST 01]       ./plg-2-nka -i invalid_tests/test01.in      OK
+    
+    ...
+
+OUTPUT NOTE:
+    in case of test fail you can see more details in testXY_Z.tmp (Z `elem` [i,1,2]) 

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="152.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <VBox alignment="CENTER" layoutX="131.0" layoutY="50.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="142.0" prefWidth="390.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+            <children>
+                <!--                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Adding Person Dialog" />-->
+                <HBox alignment="CENTER" prefHeight="50.0" prefWidth="200.0" spacing="10.0">
+                    <children>
+                        <Label alignment="CENTER_RIGHT" minWidth="100.0" text="Name:">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font></Label>
+                        <TextField fx:id="name" promptText="Not Required" HBox.hgrow="ALWAYS" />
+                    </children>
+                    <padding>
+                        <Insets right="30.0" />
+                    </padding>
+                </HBox>
+                <HBox alignment="CENTER" prefHeight="50.0" prefWidth="200.0" spacing="10.0">
+                    <children>
+                        <Label alignment="CENTER_RIGHT" minWidth="100.0" text="Description:">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font></Label>
+                        <TextField fx:id="desc" promptText="Not Required" HBox.hgrow="ALWAYS" />
+                    </children>
+                    <padding>
+                        <Insets right="30.0" />
+                    </padding>
+                </HBox>
+                <HBox alignment="CENTER_RIGHT">
+                    <children>
+                        <Button fx:id="save" mnemonicParsing="false" text="Save" />
+                    </children>
+                    <opaqueInsets>
+                        <Insets />
+                    </opaqueInsets>
+                    <padding>
+                        <Insets right="30.0" />
+                    </padding>
+                </HBox>
+            </children>
+        </VBox>
+    </children>
+</AnchorPane>

@@ -1,0 +1,8 @@
+X,Y
+a,b,c
+X
+X->abc
+X->Y
+X->#
+Y->aY
+Y->cbX

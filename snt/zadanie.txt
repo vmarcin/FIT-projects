@@ -1,0 +1,35 @@
+Zadání projektu do SNT
+
+Cílem projektu je zopakovat experiment převzatý z nějaké publikované práce. To znamená, že student:
+samostatně vyhledá publikovaný článek na zadané téma. Článek musí být publikován v seriozním periodiku (časopisy z vydavatelství Elsevier, ACM, IEEE Transactions). Články pochybného původu jsou obvykle obtížně použitelné (nejasné, nejednoznačné, experimenty neopakovatelné), což typicky studentovi úkol zkomplikuje.
+zvolený článek registruje ve WIS fóru předmětu. Doporučuji, aby každý volil článek, který ještě nebyl registrován. Pravidlo není dogmatem - pouze může být vodítkem pro hodnocení, pokud by studenti náhodnou všichni registrovali stejný článek.
+článek prostuduje, ideálně včas, aby případně svou volbu článku změnil.
+implementuje model/program popisovaný v článku. Každý projekt musí být založen na nějakém programu, který vznikl vlastní prací studenta.
+s modelem/programem provede stejné/podobné/další experimenty, jako byly popsány v článku. Srovná své výsledky s výsledky v článku. Výsledky nemusí být vysloveně totožné, ale velmi odlišné výsledky typicky indikují chybně re-implementovanou metodu z článku.
+s modelem/program volitelně provede další experimenty demonstrující další dodatečné modifikace metody a studentův vlastní přínos k problematice. Není vysloveně povinné, ale při hodnocení vítané.
+
+V daném roce budou vyhlášeny okruhy témat. Studenti si ve Wisu přihlásí svůj okruh. Okruh tematicky určuje spektrum článků. Okruhy jsou typicky z oblasti optimalizací založených na diskrétní simulaci.
+
+Experimenty se typicky vykonávají na nějaké sadě testovacích úloh (dataset). Pokud je dataset použitý v článku veřejně dostupný, pak se experimenty opakují na shodném datasetu. Jinak je možno vyhledat jiný významově podobný dataset nebo si potřebný dataset samostatně vytvořit. Je vítáno, aby se experimenty prováděly na více datasetech a výsledky se v projektu srovnaly.
+
+Odevzdání projektu zahrnuje:
+zdrojové texty vlastní implementace metody (program),
+datasety, pokud nejsou veřejně dostupné,
+technickou zprávu.
+
+Technická zpráva musí obsahovat:
+formální popis řešené úlohy,
+formální popis použité metody (pseudokód algoritmu, schemata, rovnice),
+popis datasetu,
+popis provedených experimentů a jejich interpretaci.
+
+Projekty jsou řešeny individuálně. Je vítáno, když studenti se stejným okruhem srovnají výsledky svých metod. V tomto smyslu je přípustné, aby studenti (pokud chtějí) utvořili tým, pro který však platí:
+řeší stejnou úlohu (např. všichni řeší optimalizační úlohu obchodního cestujícího),
+ustanoví si referenční (pro všechny shodný) dataset testovacích úloh,
+každý z týmu zpracovává individuálně svůj unikátní článek a s tím spojenou metodu,
+sdílí numerické výsledky svých experimentů a společně zpracují společnou technickou zprávu, kde každý podá popis své metody a individuální experimentální výsledky se agregují. Agregované výsledky se interpretují (komentář pro odlišnosti/podobnosti výsledků). Smyslem je srovnání metod.
+
+Hodnoceno je zejména:
+technicky korektní nastudování a zpracování zvoleného článku,
+rozsah provedených experimentů a jejich intepretace,
+zaujetí pro téma a vlastní invence.

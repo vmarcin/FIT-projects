@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="265.0" prefWidth="404.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="upa.controller.ImageSlider">
+   <children>
+      <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="225.0" prefWidth="400.0">
+         <children>
+            <ImageView fx:id="image" fitHeight="225.0" fitWidth="400.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="CENTER" />
+            <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="225.0" prefWidth="400.0" StackPane.alignment="CENTER">
+              <columnConstraints>
+                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <StackPane prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                     <children>
+                        <ImageView fitHeight="48.0" fitWidth="59.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/circle.png" />
+                           </image>
+                           <StackPane.margin>
+                              <Insets right="-75.0" />
+                           </StackPane.margin>
+                        </ImageView>
+                        <ImageView fx:id="nextButton" fitHeight="30.0" fitWidth="30.0" onMousePressed="#onArrowClicked" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;">
+                           <image>
+                              <Image url="@../images/right-light.png" />
+                           </image>
+                           <StackPane.margin>
+                              <Insets right="-80.0" />
+                           </StackPane.margin>
+                        </ImageView>
+                     </children>
+                  </StackPane>
+                  <StackPane prefHeight="150.0" prefWidth="200.0" GridPane.rowIndex="1">
+                     <children>
+                        <ImageView fitHeight="48.0" fitWidth="59.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/circle.png" />
+                           </image>
+                           <StackPane.margin>
+                              <Insets left="-75.0" />
+                           </StackPane.margin>
+                        </ImageView>
+                        <ImageView fx:id="prevButton" fitHeight="30.0" fitWidth="30.0" onMousePressed="#onArrowClicked" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;">
+                           <image>
+                              <Image url="@../images/left-light.png" />
+                           </image>
+                           <StackPane.margin>
+                              <Insets left="-80.0" />
+                           </StackPane.margin>
+                        </ImageView>
+                     </children>
+                  </StackPane>
+               </children>
+            </GridPane>
+         </children>
+      </StackPane>
+      <HBox layoutX="-2.0" layoutY="225.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="404.0">
+         <children>
+            <Button fx:id="findButton" mnemonicParsing="false" onAction="#onButtonClicked" prefHeight="25.0" prefWidth="130.0" text="Find Similar" />
+            <MenuButton fx:id="editButton" mnemonicParsing="false" onAction="#onButtonClicked" prefHeight="25.0" prefWidth="145.0" text="Edit Image">
+              <items>
+                <MenuItem fx:id="deleteItem" onAction="#onButtonClicked" mnemonicParsing="false" text="Delete" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                <MenuItem fx:id="rotate" onAction="#onButtonClicked" mnemonicParsing="false" text="Rotate" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                <MenuItem fx:id="flip" onAction="#onButtonClicked" mnemonicParsing="false" text="Flip" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                <MenuItem fx:id="mirror" onAction="#onButtonClicked" mnemonicParsing="false" text="Mirror" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                <MenuItem fx:id="gamma" onAction="#onButtonClicked" mnemonicParsing="false" text="Gamma" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                <MenuItem fx:id="contrast" onAction="#onButtonClicked" mnemonicParsing="false" text="Contrast" />
+              </items>
+               <HBox.margin>
+                  <Insets left="5.0" />
+               </HBox.margin>
+            </MenuButton>
+            <Region prefHeight="25.0" prefWidth="153.0" />
+            <Button fx:id="addButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#onButtonClicked" prefHeight="25.0" prefWidth="29.0" text="+">
+               <HBox.margin>
+                  <Insets right="1.0" />
+               </HBox.margin>
+            </Button>
+         </children>
+         <padding>
+            <Insets bottom="5.0" top="5.0" />
+         </padding>
+      </HBox>
+   </children>
+</AnchorPane>

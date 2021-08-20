@@ -1,0 +1,235 @@
+/**
+ * @file      main.cpp
+ *
+ * @author    Jiri Jaros \n
+ *            Faculty of Information Technology \n
+ *            Brno University of Technology \n
+ *            jarosjir@fit.vutbr.cz
+ *
+ * @brief     PCG Assignment 2
+ *            N-Body simulation in ACC
+ *
+ * @version   2021
+ *
+ * @date      11 November  2020, 11:22 (created) \n
+ * @date      29 November  2020, 11:37 (revised) \n
+ *
+ */
+
+
+
+Krok 1: základní implementace
+===============================================================================
+Velikost dat    	čas [s]
+     1024 			 0,751
+ 2 * 1024 			 1,469
+ 3 * 1024 			 2,164
+ 4 * 1024 			 2,818
+ 5 * 1024 			 3,533
+ 6 * 1024 			 4,205
+ 7 * 1024 			 4,902
+ 8 * 1024 			 5,568
+ 9 * 1024 			 6,304
+10 * 1024 			 6,929
+11 * 1024 			 7,596
+12 * 1024 			 8,362
+13 * 1024 			 9,074
+14 * 1024 			 10,041
+15 * 1024 			 11,102
+16 * 1024 			 11,864
+------------------------------------ skok (1. anomália)
+17 * 1024 			 18,549
+18 * 1024 			 19,698
+19 * 1024 			 21,31
+------------------------------------ skok (2. anomália)
+20 * 1024 			 28,794
+21 * 1024 			 31,168
+22 * 1024 			 32,65
+23 * 1024 			 34,314
+24 * 1024 			 35,891
+25 * 1024 			 37,634
+26 * 1024 			 38,899
+27 * 1024 			 40,476
+28 * 1024 			 41,991
+29 * 1024 			 43,588
+30 * 1024 			 44,984 
+
+Vyskytla se nějaká anomálie v datech -> ÁNO
+Pokud ano, vysvětlete:
+
+    1. anomália:
+        Prvá anomália bola spôsobená kernelom "calculate_gravitation_velocity". Tento
+        kernel používa pri výpočte 48 registrov na vlákno. Pri veľkosti bloku (32,4,1) -> 128 vlákien
+        to znamená 6144 registrov na blok. Použitá grafická karta má limit 65536 registrov na blok a
+        z toho vyplýva, že na jednom SM procesore môže naraz bežať 10 blokov. Jeden SM procesor tak
+        dokáže spustiť 1280 vlákien a keďže "Tesla K20m" má 13 SM procesorov je tak schopná spracovat
+        súčasne 16640 prvkov. Práve z toho dôvodu vidíme prvú anomáliu pri počte prvkov 17408 (17*1024).
+        Pri tomto počte už niesme schopný spracovať všetky prvky súčasne a čas potrebný na 
+        výpočet sa skokovo zvýšil o cca 7 sekúnd.
+    2. anomália:
+        Druhá anomália bola spôsobená kernelom "calculate_collision_velocity". Pointa je 
+        rovnaká ako pri prvej anomálii a preto v skratke:
+
+        1 vlákno => 40 registrov 
+        BlockSize (32,4,1) => 128 vlákien => 5120 registrov na blok => 12 blokov súčastne na SM procesore
+        1 SM procesor => 1536 vlákien
+        13 SM procesorov => 19968 vlákien a teda 19968 prvkov spracovaných súčastne
+
+        Skokový nárast času o cca 7 sekúnd pri 20480 (20*1024) prvkoch.
+
+Krok 2: optimalizace kódu
+===============================================================================
+Došlo ke zrychlení?
+    ÁNO. Výpočet sa zrýchlil v priemere o cca 28%.
+
+Popište dva hlavní důvody:
+    1.) Redukcia počtu prístupov (load/store) do globálnej pamäte. V kroku 1
+        každý z kernelov musel načítať dáta potrebné k výpočtu a následne po
+        vykonaní výpočtu musel uložiť tmp výsledky ktoré slúžili ako vstup
+        pre ďalší kernel.
+        Keďže v kroku 2 sme tieto kernely spojili, načítanie dát bolo potrebné
+        iba raz pred začiatkom výpočtu a rovnako zápis sa taktiež vykonal iba raz
+        a to až po dokončení výpočtu.
+        Taktiež boli eliminované niektoré duplikátne načítania keďže sa eliminovali 
+        operácie spoločné pre "calculate_collision_velocity" a "calculate_gravitation_velocity".
+    2.) Redukcia počtu floating-point operácií. V kroku 1 sa v kerneli calculate_collision_velocity
+        počítajú hodnoty už spočítané v kerneli calculate_gravitation_velocity.
+        Spojením týchto kernelov sme teda eliminovali duplicitné výpočty a to malo
+        za následok zvýšenie celkového výkonu.
+
+Porovnejte metriky s předchozím krokem: (N = 30720)
+    Pozorovane metriky: gld_transactions, gst_transactions, flop_count_sp, flop_count_sp_special)
+
+    Step2:  gld_transactions            118.004.160
+    Step1:  gld_transactions            206.517.120 
+    
+    Step2:  gst_transactions            5.760
+    Step1:  gst_transactions            11.520
+
+    Step2:  flop_count_sp               2.5481e+10
+    Step1:  flop_count_sp               3.9636e+10
+
+    Step2:  flop_count_sp_special       1.887.406.080
+    Step1:  flop_count_sp_special       2.831.093.760
+
+    (* Detailed *)
+    Step1:  calculate_collision_velocity_88_gpu
+            ---------------------------------------
+            gld_transactions            88.540.800      - eliminovane v kroku 2   
+            gst_transactions            2.880           - eliminovane v kroku 2
+            flop_count_sp               1.4156e+10      - vela z toho eliminovane v kroku 2 (nieco tam ostane)
+            flop_count_sp_special       943.687.680     - eliminovane v kroku 2
+
+            calculate_gravitation_velocity_34_gpu
+            ---------------------------------------
+            gld_transactions            117.967.680          
+            gst_transactions            2.880           - eliminovane v kroku 2
+            flop_count_sp               2.5480e+10
+            flop_count_sp_special       1.887.406.080
+
+            update_particle_142_gpu
+            ---------------------------------------
+            gld_transactions            8.640           - eliminovane v kroku 2
+            gst_transactions            5.760
+            flop_count_sp               276.480
+            flop_count_sp_special       0
+
+Krok 3: Težiště
+===============================================================================
+Kolik kernelů je nutné použít k výpočtu? - 2
+
+    Na výpočet ťažsika sú použité 2 kernely: (viz nvvp/nvprof) 
+
+        1. centerOfMassGPU_119_gpu      
+            - každé vlákno akumuluje sumy do lokálne
+        
+        2. centerOfMassGPU_119_gpu__red
+            - po skončení lokálneho výpočtu každého vlákna má tento kernel
+              na starosti redukciu lokálných medzisúčtov
+
+Kolik další paměti jste museli naalokovat? - 0B
+
+    Explicitne nebola naviac alokovaná žiadna pamäť. 
+
+Jaké je zrychelní vůči sekveční verzi? - 1699,35
+
+    pozn.:  - časy jednotlivých kernelov boli získané pomocou nvvp
+            - pri meraní bol použitý vstup o veľkosti 30720
+
+    - sekvenčná verzia: #pragma acc parallel loop seq present(p)
+        centerOfMassGPU_119_gpu         40.295ms
+    
+    - paralelná verzia: #pragma acc parallel loop present(p) reduction(+:comx, comy, comz, comw)
+        centerOfMassGPU_119_gpu         17,376us
+        centerOfMassGPU_119_gpu__red     6,336us
+        ----------------------------------------
+                                        23,712us
+
+    - zrýchlenie: (40295us / 23,712us) = 1699,35
+
+    Zdůvodněte:
+        - Z porovnania metrík oboch verzií (N=30720) možno vidieť, že najväčší rozdiel je 
+          patrný pri metrikách súvisiacich s pamäťou (globálnou/zdieľanou). 
+        
+            - gld_transactions:
+                    sekvenčná verzia:               245.760
+                    paralelná verzia:   3.840 + 4 =   3.840
+            - gst_transactions:
+                    sekvenčná verzia:               122.880
+                    paralelná verzia:     960 + 4 =     964
+            - gst_transactions:
+                    sekvenčná verzia:               122.880
+                    paralelná verzia:     960 + 4 =     964
+            - gld_efficiency:
+                    sekvenčná verzia:                 12.50%
+                    paralelná verzia:                100.00%
+            - shared_load_transactions:
+                    sekvenčná verzia:                     0
+                    paralelná verzia: 19.200 + 176 = 19.376
+            - shared_store_transactions:
+                    sekvenčná verzia:                     0
+                    paralelná verzia: 13.440 + 120 = 13.560
+
+            Z provnaných metrík teda vidíme, že paralelná verzia oproti sekvenčnej, používa 
+            na redukciu zdieľanú pamäť čo sa priaznivo prejaví vo výslednom čase, keďže počet 
+            prístupov do globálnej pamäte sa radikálne zníži. Taktiež môžme vidieť, že pri 
+            paralelnej verzii je efektivita načítania dát z GM 100% (kvoli zarovnanému prístupu)
+            oproti sekvenčnej verzii kde pracuje iba jedno vlákno z celého warpu (1,1,1).
+        
+        - Rozdiel ktorý ma vplyv na výkon je aj samotný počet vlákien použitých na vykonanie 
+          výpočtu.
+
+            - GridSize:
+                    sekvenčná verzia:                (1,1,1)
+                    paralelná verzia:                
+                        centerOfMassGPU_119_gpu      (240,1,1)
+                        centerOfMassGPU_119_gpu__red (4,1,1)
+            - BlockSize:
+                    sekvenčná verzia:                (1,1,1)
+                    paralelná verzia:                
+                        centerOfMassGPU_119_gpu      (128,1,1)
+                        centerOfMassGPU_119_gpu__red (256,1,1)
+            
+            Z použitia viacerých vlákien potom logicky vyplýva, že čas výpočtu bude nižší,
+            keďže rovnaké množstvo práce vykonáva viac "pracovníkov".
+
+
+Krok 4: analýza výkonu
+================================================================================
+N        čas CPU [s]    čas GPU CUDA [s]            čas GPU OpenACC [s]    propustnost paměti [MB/s]   výkon [MFLOPS]    zrychlení [-]
+128         0,116               0,087274                  0,157                 1023,7206                1522,1528          0,738   
+--------------------------------------------------------------------------------------------------------------------------------------       
+256         0,240               0,125385                  0,210                 1977,2017                4537,9047          1,143
+512         0,668               0,218637                  0,319                 3891,9377               11932,0752          2,094
+1024        1,051               0,408678                  0,538                 7705,2166               28280,1263          1,953
+2048        1,814               0,788594                  0,973                15188,8580               62526,1952          1,864
+4096        6,311               1,551931                  1,788                31485,4157              136079,7874          3,529
+8192       25,410               3,084290                  3,439                63576,4975              282977,7412          7,389
+16384      98,217               6,727556                 13,473                82572,1453              288909,5194          7,315 
+32768     393,578              29,709385                 40,549               106090,5461              383965,2190          9,706
+65536    1564,541             118,180566                134,895               139244,4860              461657,5483         11,598
+131072   6883,980             417,353861                537,312               153941,9331              463623,9668         12,811
+
+Od jakého počtu částic se vyplatí počítat na grafické kartě?
+    - V nasom pripade je GPU implementacia rychlejsia uz pri vstupe o velkosti 256 castic.
+===============================================================================

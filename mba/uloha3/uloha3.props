@@ -1,0 +1,10 @@
+const int T;
+
+P=? [ F[0,T] sick=0 ]
+
+// Probability that the infection will eventually disappear?
+P=? [ F sick=0 ]
+
+// Probability that infection lasts for at least 100 time units and desappears within 120 time units?
+P=? [ (sick>0) U[100,120] (sick=0) ]
+

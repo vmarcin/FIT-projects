@@ -1,0 +1,13 @@
+X,X0,X1,X2,Y,Y0
+a,b,c
+X
+X->#
+X->aX0
+X->aY
+X->cY0
+X0->bX1
+X1->cX2
+X2->#
+Y->aY
+Y->cY0
+Y0->bX
